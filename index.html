@@ -19,7 +19,7 @@
             --accent-secondary: #06b6d4;
             --accent-glow: rgba(37, 99, 235, 0.28);
             --bg-main: #03060c;
-            --bg-card: rgba(11, 18, 33, 0.85);
+            --bg-card: rgba(11, 18, 33, 0.86);
         }
 
         body.theme-bcso {
@@ -66,9 +66,8 @@
         }
 
         /* =========================================================================
-           ZAAWANSOWANE ANIMACJE IKON I ELEMENTÓW UI
+           ANIMACJE IKON I ELEMENTÓW UI
            ========================================================================= */
-        /* 1. Lewitacja (Floating) */
         .anim-float {
             animation: floatIcon 3.2s ease-in-out infinite;
         }
@@ -77,7 +76,6 @@
             50% { transform: translateY(-5px); }
         }
 
-        /* 2. Bicie serca dla TCCC / Medycyny */
         .anim-heartbeat {
             animation: heartBeat 1.6s infinite;
         }
@@ -89,7 +87,6 @@
             70% { transform: scale(1); }
         }
 
-        /* 3. Kogut Policyjny (Czerwono-Niebieski błysk + drganie) */
         .anim-siren {
             animation: policeSiren 1.1s infinite;
         }
@@ -98,7 +95,6 @@
             50% { color: #f43f5e; filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.9)); transform: rotate(6deg) scale(1.08); }
         }
 
-        /* 4. Pulsowanie Radaru / Komunikacji */
         .anim-radar {
             animation: radarWave 2.4s infinite ease-in-out;
         }
@@ -107,7 +103,6 @@
             50% { transform: scale(1.15) rotate(12deg); filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.9)); }
         }
 
-        /* 5. Złoty Blask Trofeum / Odznaki */
         .anim-trophy {
             animation: trophyShine 2.5s infinite ease-in-out;
         }
@@ -116,7 +111,6 @@
             50% { transform: scale(1.16) rotate(-5deg); filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.95)); }
         }
 
-        /* 6. Obrót Zębatki / Systemu */
         .anim-spin-slow {
             animation: spinSlow 9s linear infinite;
         }
@@ -125,7 +119,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 7. Animacja wejścia Modala Aktualizacji */
         .modal-pop-in {
             animation: modalPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
@@ -134,13 +127,20 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* 8. Animacja wjazdu Powiadomienia o Błędach (Qylo) */
         .bug-toast-enter {
             animation: slideInRight 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideInRight {
             0% { opacity: 0; transform: translateX(120%) scale(0.9); }
             100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        .bug-progress-Countdown {
+            animation: shrinkBar 18s linear forwards;
+        }
+        @keyframes shrinkBar {
+            from { width: 100%; }
+            to { width: 0%; }
         }
 
         /* Custom Dopamine Checkbox */
@@ -263,21 +263,19 @@
 
                 <div>
                     <h2 id="update-modal-title" class="text-2xl font-black text-white tracking-tight">Aktualizacja Systemu A.T.L.A.S.</h2>
-                    <p id="update-modal-version" class="text-xs font-mono text-blue-400 mt-1">Wersja systemu: v2.5 • Stworzone przez TD dla funkcjonariuszy</p>
+                    <p id="update-modal-version" class="text-xs font-mono text-blue-400 mt-1">Wersja systemu: v2.6 • Stworzone przez TD dla funkcjonariuszy</p>
                 </div>
 
                 <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 text-left space-y-2.5 text-xs sm:text-sm text-slate-300 max-h-60 overflow-y-auto">
                     <div class="text-[11px] font-mono uppercase text-cyan-400 font-bold flex items-center gap-1.5">
-                        <i class="fa-solid fa-code-commit"></i> Lista zmian w najnowszej wersji:
+                        <i class="fa-solid fa-code-commit"></i> Lista zmian w najnowszej aktualizacji:
                     </div>
-                    <ul id="update-modal-list" class="space-y-2 text-xs leading-relaxed">
-                        <!-- Wypełniane z TD_CONFIG -->
-                    </ul>
+                    <ul id="update-modal-list" class="space-y-2 text-xs leading-relaxed"></ul>
                 </div>
 
                 <div class="p-3 rounded-xl bg-blue-950/30 border border-blue-500/30 text-[11px] font-mono text-slate-300 flex items-center justify-center gap-2">
                     <i class="fa-brands fa-discord text-indigo-400 text-sm"></i>
-                    <span>Znalazłeś błąd? Napisz do <strong class="text-white">Qylo (Oley SASA)</strong> na Discordzie lub zgłoś się <strong class="text-cyan-400">IC</strong>!</span>
+                    <span>Znalazłeś błąd? Napisz do <strong class="text-white">Qylo (Oley SASA)</strong> na Discordzie bądź zgłoś się <strong class="text-cyan-400">IC</strong>!</span>
                 </div>
 
                 <button onclick="dismissUpdateModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-extrabold text-sm tracking-wide uppercase shadow-xl shadow-cyan-950/60 transition-all transform hover:scale-[1.02] active:scale-[0.99] flex items-center justify-center gap-2">
@@ -292,26 +290,29 @@
          POWIADOMIENIE BOCZNE CO 1,5 MINUTY (ZGŁASZANIE BŁĘDÓW DO QYLO / IC)
          ========================================================================= -->
     <div id="bug-report-toast" class="fixed bottom-6 right-5 z-[90] hidden max-w-sm w-full px-4 sm:px-0">
-        <div class="glass-card bug-toast-enter rounded-2xl p-4 border-2 border-cyan-500/60 shadow-[0_0_30px_rgba(6,182,212,0.3)] relative overflow-hidden">
+        <div class="glass-card bug-toast-enter rounded-2xl p-4 border-2 border-cyan-500/60 shadow-[0_0_30px_rgba(6,182,212,0.35)] relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 via-cyan-400 to-emerald-400"></div>
             <div class="flex items-start gap-3.5 pl-2">
                 <div class="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5">
-                    <i class="fa-solid fa-headset text-lg anim-float"></i>
+                    <i class="fa-solid fa-bug-slash text-lg anim-float"></i>
                 </div>
                 <div class="flex-1 text-xs leading-relaxed">
                     <div class="flex items-center justify-between gap-2 mb-1">
                         <span class="font-mono font-extrabold text-cyan-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
-                            Komunikat Techniczny TD-NET
+                            Wsparcie Techniczne TD-NET
                         </span>
-                        <button onclick="hideBugToast()" class="text-slate-400 hover:text-white transition-colors">
+                        <button onclick="hideBugToast()" class="text-slate-400 hover:text-white transition-colors" title="Zamknij">
                             <i class="fa-solid fa-xmark text-sm"></i>
                         </button>
                     </div>
                     <p class="text-slate-200">
-                        Znalazłeś błąd w systemie lub literówkę w materiałach? Napisz bezpośrednio do <strong class="text-amber-400 font-mono">Qylo (Oley SASA)</strong> na Discordzie bądź zgłoś się <strong class="text-emerald-400 font-mono">IC</strong>!
+                        Znalazłeś błąd w terminalu lub w materiałach? Napisz do <strong class="text-amber-400 font-mono">Qylo (Oley SASA)</strong> na Discordzie bądź zgłoś się bezpośrednio <strong class="text-emerald-400 font-mono">IC</strong>!
                     </p>
                 </div>
+            </div>
+            <div class="w-full h-1 bg-slate-900 mt-3 rounded-full overflow-hidden">
+                <div id="bug-toast-bar" class="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 bug-progress-Countdown"></div>
             </div>
         </div>
     </div>
@@ -329,26 +330,28 @@
                 </span>
                 <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-2.5 py-0.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-blue-500/50 text-slate-400 hover:text-white font-mono text-[11px] transition-all">
                     <i class="fa-solid fa-magnifying-glass text-cyan-400"></i>
-                    <span>Szukaj w bazie</span>
+                    <span>Szukaj w TD-NET</span>
                     <kbd class="px-1.5 py-0.2 bg-slate-800 text-slate-300 rounded text-[10px]">Ctrl+K</kbd>
                 </button>
             </div>
 
             <!-- Right Controls -->
             <div class="flex flex-wrap items-center gap-2">
-                <!-- Przycisk podglądu aktualizacji -->
                 <button onclick="openUpdateModal()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-cyan-500/15 border border-cyan-500/40 hover:bg-cyan-500/25 text-cyan-300 font-mono text-[11px] font-bold transition-all">
                     <i class="fa-solid fa-bell anim-siren"></i>
-                    <span>Update Info</span>
+                    <span>Update v2.6</span>
                 </button>
 
-                <!-- Department Theme Switcher -->
+                <button onclick="showBugToast()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/40 text-amber-400 font-mono text-[11px] font-bold transition-all" title="Zgłoś błąd">
+                    <i class="fa-solid fa-bug"></i>
+                    <span class="hidden sm:inline">Zgłoś błąd</span>
+                </button>
+
                 <button onclick="toggleDepartmentTheme()" id="dept-theme-btn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/40 text-blue-400 font-mono text-[11px] font-bold transition-all">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span id="dept-theme-label">Motyw: LSPD</span>
                 </button>
 
-                <!-- Pomodoro -->
                 <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 px-2.5 py-1 rounded-xl font-mono text-[11px]">
                     <i class="fa-solid fa-stopwatch text-amber-400 anim-float"></i>
                     <span id="pomodoro-display" class="font-bold text-white">25:00</span>
@@ -356,7 +359,6 @@
                     <button onclick="resetPomodoro()" class="text-slate-500 hover:text-slate-300" title="Reset"><i class="fa-solid fa-rotate-left"></i></button>
                 </div>
 
-                <!-- Sound Toggle -->
                 <button onclick="toggleSound()" id="sound-toggle-btn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/40 text-emerald-400 font-mono text-[11px] transition-all">
                     <i class="fa-solid fa-volume-high"></i>
                     <span id="sound-label" class="hidden sm:inline">SFX: ON</span>
@@ -438,7 +440,6 @@
             <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <!-- Left Info + Cadet Identity + 7 Badges -->
                 <div class="lg:col-span-7 space-y-4">
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="px-3 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold flex items-center gap-1.5">
@@ -449,7 +450,6 @@
                             <i class="fa-solid fa-fire-flame-curved text-amber-400"></i>
                             <span id="xp-text-val">0 XP ZDOBYTE</span>
                         </span>
-                        <!-- Cadet Callsign Input -->
                         <div class="flex items-center gap-1.5 bg-slate-950/90 border border-slate-800 rounded-lg px-2.5 py-1">
                             <i class="fa-solid fa-id-badge text-cyan-400"></i>
                             <input type="text" id="cadet-name-input" oninput="saveCadetName()" placeholder="Wpisz Imię / Odznakę IC..." class="bg-transparent text-xs font-mono text-white placeholder-slate-500 focus:outline-none w-44">
@@ -457,15 +457,14 @@
                     </div>
 
                     <div>
-                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
-                            <span>Terminal Dydaktyczny TD-NET (System A.T.L.A.S.)</span>
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+                            Terminal Dydaktyczny TD-NET (System A.T.L.A.S.)
                         </h2>
                         <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-                            Oficjalna baza wiedzy przygotowująca do <strong>Egzaminu Oficerskiego</strong>. Zaznaczaj opanowane zagadnienia z 7 działów, rozwijaj ściągi z przepisami, ćwicz na symulatorach i odbierz <strong>Kartę Gotowości Kadeta</strong>.
+                            Oficjalna baza wiedzy przygotowująca do <strong>Egzaminu Oficerskiego</strong>. Odznaczaj opanowane zagadnienia z 7 działów, rozwijaj ściągi z przepisami, ćwicz na symulatorach i odbierz <strong>Kartę Gotowości Kadeta</strong>.
                         </p>
                     </div>
 
-                    <!-- 7 Mini Achievement Badges -->
                     <div>
                         <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
                             <i class="fa-solid fa-trophy text-amber-400"></i>
@@ -522,7 +521,6 @@
                     <p class="text-xs sm:text-sm text-slate-400">Kliknij przycisk <strong>„Rozwiń ściągę”</strong> przy dowolnym podpunkcie, aby wyświetlić dokładne wytyczne z Kompendium lub TCCC.</p>
                 </div>
 
-                <!-- Controls -->
                 <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
                     <button onclick="expandAllDetails()" id="expand-all-btn" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-xs font-mono text-cyan-400 whitespace-nowrap transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-layer-group"></i>
@@ -561,7 +559,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                     <div>
                         <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">
-                            <i class="fa-solid fa-car-On mr-1"></i> Symulator 1 • Rozdział 7
+                            <i class="fa-solid fa-car-on mr-1"></i> Symulator 1 • Rozdział 7
                         </span>
                         <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Procedury FTS (Felony Traffic Stop — Kroki 1–8)</h4>
                         <p class="text-xs text-slate-400">Klikaj w kafelki poniżej w <strong>dokładnej kolejności chronologicznej</strong> (od kroku 1 do kroku 8), w jakiej przeprowadza się zatrzymanie wysokiego ryzyka.</p>
@@ -608,45 +606,54 @@
                         <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">
                             <i class="fa-solid fa-scale-balanced mr-1"></i> Symulator 3 • Rozdział 9 i 10
                         </span>
-                        <h4 class="text-lg font-extrabold text-white mt-1">Kalkulator Kaucji (Status 7) & Kryteriów Konwoju</h4>
-                        <p class="text-xs text-slate-400">Sprawdź, jak parametry wyroku i zarzuty wpływają na prawo do kaucji oraz obowiązek organizacji konwoju.</p>
+                        <h4 class="text-lg font-extrabold text-white mt-1">Kalkulator Kaucji (Status 7) & Organizacji Konwoju</h4>
+                        <p class="text-xs text-slate-400">Sprawdź prawo do kaucji, kryteria konwoju oraz wymagany skład eskorty według prawdopodobieństwa odbicia.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                            <label class="text-xs font-mono text-slate-400 block mb-1">Długość wyroku (Miesiące): <strong id="calc-months-val" class="text-white">35 mies.</strong></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <label class="text-[11px] font-mono text-slate-400 block mb-1">Wyrok: <strong id="calc-months-val" class="text-white">35 mies.</strong></label>
                             <input type="range" id="calc-months" min="5" max="200" step="5" value="35" oninput="updateBailConvoyCalc()" class="w-full accent-blue-500">
                         </div>
-                        <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                            <label class="text-xs font-mono text-slate-400 block mb-1">Dostępni FP na służbie: <strong id="calc-fp-val" class="text-white">6 FP</strong></label>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <label class="text-[11px] font-mono text-slate-400 block mb-1">Na służbie: <strong id="calc-fp-val" class="text-white">6 FP</strong></label>
                             <input type="range" id="calc-fp" min="1" max="15" step="1" value="6" oninput="updateBailConvoyCalc()" class="w-full accent-emerald-500">
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <label class="text-[11px] font-mono text-slate-400 block mb-1">Ryzyko odbicia:</label>
+                            <select id="calc-risk" onchange="updateBailConvoyCalc()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-white">
+                                <option value="BRAK">BRAK</option>
+                                <option value="NISKIE">NISKIE</option>
+                                <option value="REALNE">REALNE</option>
+                                <option value="BEZPOŚREDNIE">BEZPOŚREDNIE</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
                         <label class="flex items-center gap-2.5 cursor-pointer text-xs text-slate-200">
                             <input type="checkbox" id="calc-severe-charge" onchange="updateBailConvoyCalc()" class="dopamine-check">
-                            <span>Czy zatrzymany posiada którykolwiek z <strong>9 zarzutów wykluczających kaucję</strong> (Próba zabójstwa FP/Obywatela, Zabójstwo FP/Obywatela, Groźby z bronią, Napad, Porwanie FP/Obywatela, Handel bronią)?</span>
+                            <span>Posiada którykolwiek z <strong>9 zarzutów wykluczających kaucję</strong> (Próba zabójstwa FP/Obywatela, Zabójstwo FP/Obywatela, Groźby z bronią, Napad, Porwanie FP/Obywatela, Handel bronią)</span>
                         </label>
                     </div>
 
                     <div id="calc-results-box" class="space-y-2.5 text-xs"></div>
                 </div>
 
-                <!-- Interaktywny Schemat Budowy Pistoletu (Rozdział 14) -->
+                <!-- Interaktywny Schemat Budowy Pistoletu (Rozdział 14 - 13 elementów) -->
                 <div class="glass-card rounded-3xl p-6 space-y-4 border-l-4 border-l-cyan-500">
                     <div>
                         <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
-                            <i class="fa-solid fa-crosshairs mr-1"></i> Symulator 4 • Rozdział 14
+                            <i class="fa-solid fa-crosshairs mr-1"></i> Symulator 4 • Rozdział 14 (13 Elementów)
                         </span>
-                        <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Budowy Pistoletu (Glock 17)</h4>
-                        <p class="text-xs text-slate-400">Kliknij na dowolny numer na schemacie (1–12), aby sprawdzić element budowy broni oraz zasady BLOS.</p>
+                        <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Budowy Pistoletu (Glock 17) & Klas Broni</h4>
+                        <p class="text-xs text-slate-400">Kliknij dowolny z 13 elementów ze schematu w Rozdziale 14, aby sprawdzić jego opis oraz zasady BLOS.</p>
                     </div>
 
                     <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="pistol-parts-grid"></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="pistol-parts-grid"></div>
                         <div id="pistol-part-detail" class="p-3.5 rounded-xl bg-blue-950/30 border border-blue-500/30 text-xs text-slate-200 font-mono">
-                            Kliknij wybrany numer powyżej, aby wyświetlić nazwę i funkcję części pistoletu ze schematu w Rozdziale 14.
+                            Kliknij wybrany numer powyżej (#1 – #13), aby wyświetlić nazwę i funkcję części pistoletu ze schematu w Rozdziale 14.
                         </div>
                     </div>
                 </div>
@@ -748,7 +755,6 @@
                 </div>
             </div>
 
-            <!-- Interactive Chain of Command Comparison (LSPD vs BCSO) -->
             <div class="glass-card rounded-3xl p-6 space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
                     <h4 class="text-base font-extrabold text-white flex items-center gap-2">
@@ -777,7 +783,7 @@
         </section>
 
         <!-- =========================================================
-             TAB 5: TCCC / MEDYCYNA (BASIC MEDICAL OFFICER HANDBOOK)
+             TAB 5: TCCC / MEDYCYNA (PEŁNY HANDBOOK 01–08)
              ========================================================= -->
         <section id="view-tccc" class="hidden space-y-8">
             <div class="glass-card rounded-3xl p-6 sm:p-7 border-l-4 border-l-rose-500 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -801,6 +807,7 @@
                 </div>
             </div>
 
+            <!-- 02 & 03: FAZY TCCC ORAZ RAPID ASSESSMENT -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-card rounded-2xl p-6 space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -876,7 +883,7 @@
                 </div>
             </div>
 
-            <!-- SEKWENCJA M-A-R-C-H -->
+            <!-- 04: SEKWENCJA M-A-R-C-H -->
             <div class="glass-card rounded-2xl p-6 space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
                     <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
@@ -957,40 +964,177 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 05, 06, 07, 08: TRIAGE, ZŁAMANIA (6 KROKÓW), IFAK/OFAK & EMS HANDOFF -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h4 class="text-base font-extrabold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-users-viewfinder text-amber-400"></i>
+                        <span>05 & 06 — Triage LSPD oraz Złamania (6 Kroków Splint)</span>
+                    </h4>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                            <div class="font-mono font-bold text-white">05 — TRIAGE (Segregacja przy wielu poszkodowanych):</div>
+                            <div><strong>First Pass:</strong> 🔴 <strong>URGENT</strong> (natychmiastowa pomoc) vs 🟢 <strong>NON-URGENT</strong> (pomoc odroczona).</div>
+                            <div><strong>Second Pass:</strong> 🔴 <strong>URGENT</strong> (zagrożenie życia) → 🟡 <strong>PRIORITY</strong> (poważny uraz, odroczony) → 🟢 <strong>ROUTINE</strong> (lekkie obrażenia) → ⚫ <strong>DEAD</strong> (brak szans na przeżycie).</div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+                            <div class="font-mono font-bold text-blue-400">06 — ZŁAMANIA (Zamknięte vs Otwarte & 6 Kroków Szyny Splint):</div>
+                            <p class="text-slate-300"><strong>Objawy:</strong> silny ból, obrzęk, deformacja, nietypowa długość kończyny, brak czucia/tętna poniżej urazu, trzask.</p>
+                            <p class="text-slate-300"><strong>6 Kroków Splint:</strong> 1) Przygotuj i zmierz szynę na <strong>zdrowej (przeciwnej) kończynie</strong>, 2) Przygotuj bandaże mocujące, 3) Przyłóż szynę w pozycji spoczynkowej (nie prostuj na siłę!), 4) Zabezpiecz bandażem, 5) Unieruchom <strong>staw powyżej i poniżej złamania</strong>, 6) <strong>Sprawdź ponownie tętno dystalne i czucie</strong> (jeśli brak tętna — poluzuj i popraw szynę). Przy złamaniu otwartym najpierw zatamuj krwotok i osłoń ranę (zakaz wciskania kości!).</p>
+                            <p class="text-amber-300"><strong>Inne urazy:</strong> Uraz oka = NIE NACISKAJ, załóż sztywną osłonę + EMS. Oparzenie = osłoń ranę (przy elektrycznym odetnij prąd).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h4 class="text-base font-extrabold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-Suitcase-medical text-emerald-400"></i>
+                        <span>07 & 08 — Wyposażenie IFAK / OFAK oraz Raport EMS Handoff</span>
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-rose-400 font-mono block">1x CAT Gen 7 TQ</strong><span class="text-slate-400 text-[11px]">Staza taktyczna</span></div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-amber-400 font-mono block">1x Modular Bandage</strong><span class="text-slate-400 text-[11px]">Bandaż OLAES</span></div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-cyan-400 font-mono block">1x Beacon Chest Seal</strong><span class="text-slate-400 text-[11px]">Opatrunek klatki</span></div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-blue-400 font-mono block">1x Trauma Shears</strong><span class="text-slate-400 text-[11px]">Nożyczki ratownicze</span></div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-purple-400 font-mono block">1x Surgical Tape</strong><span class="text-slate-400 text-[11px]">Taśma medyczna</span></div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800"><strong class="text-emerald-400 font-mono block">1x Nitrile Gloves</strong><span class="text-slate-400 text-[11px]">Rękawiczki ochronne</span></div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-2">
+                        <div class="font-mono font-bold text-cyan-400">08 — REASSESS & EMS HANDOFF (5 Punktów Raportu):</div>
+                        <p class="text-slate-300">Przed oddaniem poszkodowanego zespołowi EMS powtórz ocenę M-A-R-C-H i przekaż: <strong>1. LOCATION</strong> (gdzie), <strong>2. CONDITION</strong> (stan/przytomność), <strong>3. INJURY</strong> (obrażenia), <strong>4. TREATMENT</strong> (wykonane zabiegi), <strong>5. CHANGE</strong> (czy stan się zmienił).</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- =========================================================
-             TAB 6: NIEZBĘDNIK, TABELE I WIĄZANKI RADIOWE (ŚCIĄGA)
+             TAB 6: NIEZBĘDNIK, TABELE, KODY I POJAZDY (PEŁNA ŚCIĄGA)
              ========================================================= -->
         <section id="view-cheatsheet" class="hidden space-y-8">
             <div>
                 <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2.5">
                     <i class="fa-solid fa-satellite-dish text-cyan-400 anim-radar"></i>
-                    <span>Niezbędnik Kadeta — Kody, Wiązanki, Limity i Pojazdy</span>
+                    <span>Niezbędnik Kadeta — Wiązanki, Kody, Pościgi, Stany Wyjątkowe i Pojazdy</span>
                 </h3>
-                <p class="text-xs sm:text-sm text-slate-400">Kliknij w dowolną wiązankę, aby natychmiast skopiować ją do schowka.</p>
+                <p class="text-xs sm:text-sm text-slate-400">Kompletne zestawienie tabelaryczne. Kliknij w dowolną wiązankę, aby natychmiast skopiować ją do schowka.</p>
             </div>
 
+            <!-- 1. GOTOWE WIĄZANKI RADIOWE I KOMENDY -->
             <div class="glass-card rounded-2xl p-6 space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 class="text-base font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-microphone-lines text-blue-400"></i>
-                        <span>Obowiązkowe Wiązanki Radiowe, Megafon i EMS Handoff</span>
+                        <span>Obowiązkowe Wiązanki Radiowe, Megafon FTS (4 osoby) i EMS Handoff</span>
                     </h4>
                     <span class="text-xs font-mono text-cyan-400">Stworzone przez TD dla funkcjonariuszy</span>
                 </div>
                 <div id="binds-container" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
             </div>
 
+            <!-- 2. WYSZUKIWARKA KODÓW RADIOWYCH, STATUSÓW I OKRZYKÓW -->
             <div class="glass-card rounded-2xl p-6 space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                     <h4 class="text-base font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-tower-broadcast text-emerald-400 anim-radar"></i>
-                        <span>Tabela Kodów Radiowych, Statusów i Pojęć (Rozdział 5)</span>
+                        <span>Tabela Kodów Radiowych, Statusów, Skrótów i Okrzyków (Rozdział 5)</span>
                     </h4>
-                    <input type="text" id="radio-search" oninput="renderRadioCodes()" placeholder="Szukaj kodu (np. 10-13, Status 7, Kod 0)..." class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-64">
+                    <input type="text" id="radio-search" oninput="renderRadioCodes()" placeholder="Szukaj kodu (np. 10-13, Status 7, Officer down)..." class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-72">
                 </div>
                 <div id="radio-codes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[440px] overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- 3. PORÓWNANIE: KODY POŚCIGOWE (ROZDZIAŁ 8) VS STANY WYJĄTKOWE (ROZDZIAŁ 12) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h4 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-car-burst text-rose-400 anim-siren"></i>
+                        <span>Poziomy Zagrożenia Pościgu (Rozdział 8)</span>
+                    </h4>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+                            <div class="font-bold text-emerald-400 font-mono mb-1">KOD ZIELONY (Domyślny)</div>
+                            <p class="text-slate-300">Automatycznie po rozpoczęciu pościgu (10-80). Brak autoryzacji na manewry.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30">
+                            <div class="flex justify-between items-center font-bold text-amber-400 font-mono mb-1">
+                                <span>KOD ŻÓŁTY</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20">PIT 40 mph + Nieruchoma</span>
+                            </div>
+                            <p class="text-slate-300"><strong>Warunki:</strong> 10 min od zielonego, chodniki/pod prąd, próba zastawki, 1. zmiana pojazdu lub dosiadka. (PIT wyłącznie poza terenem zabudowanym / duże skrzyżowania / industrial).</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-rose-950/30 border border-rose-500/30">
+                            <div class="flex justify-between items-center font-bold text-rose-400 font-mono mb-1">
+                                <span>KOD CZERWONY</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-rose-500/20">PIT 60 mph + Kolczatki + Opona (1/5 min)</span>
+                            </div>
+                            <p class="text-slate-300"><strong>Warunki:</strong> 20 min od żółtego, wielokrotna zmiana auta, potrącenie, ingerencja osób trzecich w szyk, udana zastawka, wjazd do kanałów metra (po wyjeździe wraca poprzedni kod!).</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-600">
+                            <div class="flex justify-between items-center font-bold text-white font-mono mb-1">
+                                <span>KOD CZARNY</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-700 text-rose-300">PIT 70 mph + Kolczatki + Strzały w napastników</span>
+                            </div>
+                            <p class="text-slate-300"><strong>Warunki:</strong> Strzały w kierunku FP (pomija stopniowanie!), skok autem do wody, przesiadka do helikoptera.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h4 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400 anim-trophy"></i>
+                        <span>Stany Wyjątkowe Miasta (Rozdział 12 — Tylko HC)</span>
+                    </h4>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+                            <div class="font-bold text-emerald-400 font-mono mb-1">KOD ZIELONY (Stan normalny)</div>
+                            <p class="text-slate-300">Możliwe patrole solo od stopnia <strong>Officer I</strong>.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-orange-950/30 border border-orange-500/30">
+                            <div class="font-bold text-orange-400 font-mono mb-1">KOD POMARAŃCZOWY (Patrole 2-osobowe)</div>
+                            <p class="text-slate-300"><strong>Autoryzacja:</strong> Kamizelka kuloodporna od stopnia <strong>Porucznika</strong>, nakaz wylegitymowania i przeszukania każdego zamaskowanego obywatela.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-rose-950/30 border border-rose-500/30">
+                            <div class="font-bold text-rose-400 font-mono mb-1">KOD CZERWONY (Patrole 2–3 osobowe)</div>
+                            <p class="text-slate-300"><strong>Autoryzacja:</strong> Kamizelka kuloodporna od <strong>Oficera III</strong>, przeszukiwanie zamaskowanych, ciągły patrol <strong>1x EAGLE</strong>.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-600">
+                            <div class="font-bold text-white font-mono mb-1">KOD CZARNY (Patrole min. 3-osobowe)</div>
+                            <p class="text-slate-300"><strong>Powód specjalny:</strong> <strong>Porwanie osoby z High Command</strong> (wprowadzany natychmiast!).<br><strong>Autoryzacja:</strong> Kamizelka dla <strong>każdego stopnia</strong>, przeszukiwanie zamaskowanych/podejrzanych, ciągły patrol <strong>2x EAGLE</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. JEDNOSTKI PATROLOWE I LIMITY WYPOSAŻENIA (ROZDZIAŁ 1 I 6) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <h4 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-car-tunnel text-blue-400"></i>
+                        <span>Podział Jednostek i Modeli Pojazdów (Rozdział 6)</span>
+                    </h4>
+                    <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
+                        <div><strong class="text-blue-400 font-mono">ADAM (Patrolowa):</strong> Vapid Stainer, Declasse Impaler LE, Karin Sultan RSX, BF Club XR, BF Echelon Tourer, Vulcar Hedra, Obey Argento 7F, Ubermacht Sentinel GTS-R, Dewbauchee Solace</div>
+                        <div><strong class="text-emerald-400 font-mono">LINCOLN (Terenowa):</strong> Bravado Gresley STX, Bravado Bison V8, Vapid Scout GSX, Bravado Bison Hellfire, Karin Mojave</div>
+                        <div><strong class="text-amber-400 font-mono">EDWARD (Pościgowa — 1 na 10 FP):</strong> Vapid Dominator GSX, Bravado Banshee S, Pfister Comet S2R, Progen TR3-S, Pegassi Prospero</div>
+                        <div><strong class="text-cyan-400 font-mono">EAGLE (Powietrzna):</strong> Maverick</div>
+                        <div><strong class="text-purple-400 font-mono">TOM (Transportowa — ZAKAZ patroli drogowych!):</strong> Vapid Steed, Bravado Esperta</div>
+                        <div><strong class="text-rose-400 font-mono">MARRY (Jednośladowa/ATV — tylko 2 os.):</strong> Nagasaki BF400, Nagasaki NAG, Shitzu Bati</div>
+                        <div><strong class="text-white font-mono">Pozostałe jednostki:</strong> <strong>DAVID</strong> (S.W.A.T), <strong>OCEAN</strong> (Morska), <strong>FRANK</strong> (Piesza: 2–4 os. za zgodą PWC)</div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <h4 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-toolbox text-cyan-400"></i>
+                        <span>Limity Wyposażenia FP oraz Radiowozu (Rozdział 1)</span>
+                    </h4>
+                    <div class="space-y-2.5 text-xs text-slate-300 leading-relaxed">
+                        <div><strong class="text-white">Wyposażenie Funkcjonariusza:</strong> Pistolet Policyjny (od Oficera I), Taser (<strong>max. 5 kartridży</strong>), Amunicja (<strong>max. 60 + 12 załadowanych</strong>), Kajdanki <strong>x3</strong>, Tonfa (pałka policyjna), Odznaka, Bodycam, Radio, GPS, Nożyce do trytytek oraz kajdanek, Kevlarowa kamizelka pod mundurem, Skaner linii papilarnych. <span class="text-rose-400 font-semibold">(Zakaz dodatków do broni poza latarką!)</span></div>
+                        <div><strong class="text-white">Wyposażenie Radiowozu:</strong> MedBag, Kolczatki <strong>x3</strong>, Zestaw Naprawczy <strong>x2</strong>, Pełne oznakowanie radiowozu (naklejki na karoserii + na dachu nr odznaki), Radar prędkości.</div>
+                        <div><strong class="text-white">Sektory Patrolowe (Rozdział 6):</strong> <strong>Sektor A</strong> (Los Santos), <strong>Sektor B</strong> (Sandy Shores i okolice), <strong>Sektor C</strong> (Paleto Bay i okolice).</div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1019,7 +1163,7 @@
     </main>
 
     <!-- =========================================================================
-         MODAL: COMMAND PALETTE (CTRL + K)
+         MODAL: COMMAND PALETTE (CTRL + K — KLIKALNA NAWIGACJA)
          ========================================================================= -->
     <div id="cmd-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-start justify-center pt-20 px-4">
         <div class="glass-card w-full max-w-2xl rounded-3xl border border-blue-500/40 overflow-hidden shadow-2xl">
@@ -1081,22 +1225,20 @@
     <script>
         // =========================================================================
         // ★ KONFIGURACJA ZARZĄDU TRAINING DIVISION (ŁATWA EDYCJA) ★
-        // Kiedy robisz nowy update na GitHubie, zmień `appVersion` np. na "2.6"
-        // oraz dopisz punkty w `updateChangelog` — okienko wyskoczy każdemu kadetowi!
         // =========================================================================
         const TD_CONFIG = {
-            appVersion: "2.5",
-            alwaysShowUpdateOnLoad: true, // Ustawione na true, aby przy odświeżeniu/wejściu komunikat o aktualizacji był zawsze widoczny (możesz zmienić na false, by zapisywał w pamięci przeglądarki)
+            appVersion: "2.6",
+            alwaysShowUpdateOnLoad: true,
             updateTitle: "Aktualizacja Terminalu TD-NET (System A.T.L.A.S.)",
             updateChangelog: [
                 "Wdrożono oficjalny system <strong>TD-NET // A.T.L.A.S.</strong> do użytku IC dla kadetów oraz funkcjonariuszy LSPD i BCSO.",
-                "Dodano pełny moduł medyczny <strong>TCCC (LSPD Basic Medical Officer Handbook)</strong> wraz z algorytmem <strong>M.A.R.C.H.</strong> i symulatorem klinicznym.",
-                "Dodano rozwijane ściągi przy każdym podpunkcie w 7 działach egzaminu oficerskiego (Teoria, NTS, FTS, Status 7, 10-80, 10-80 patyki, Pierwsza pomoc).",
-                "Dodano 4 interaktywne symulatory praktyczne (układanka FTS, kalkulator kaucji/konwoju, schemat pistoletu oraz trenażer TCCC).",
-                "Wprowadzono nowe animacje ikon taktycznych oraz system zgłoszeń technicznych do <strong>Qylo (Oley SASA)</strong>."
+                "Dodano pełny podręcznik <strong>TCCC (Moduły 01–08)</strong>: fazy CUF/TFC/EVAC, MARCH, Triage, 6 kroków szyny Splint, skład IFAK/OFAK oraz raport EMS Handoff.",
+                "Naprawiono i uzupełniono wszystkie <strong>13 elementów budowy pistoletu Glock 17</strong> w symulatorze Rozdziału 14 oraz 4 poziomy prawdopodobieństwa odbicia konwoju.",
+                "Przywrócono pełne tabele porównawcze <strong>Kodów Pościgowych, Stanów Wyjątkowych oraz Modeli Pojazdów</strong> w zakładce Kody & Ściąga.",
+                "Dodano cykliczny system zgłoszeń błędów bezpośrednio do <strong>Qylo (Oley SASA)</strong> bądź IC."
             ],
             brandingText: "Stworzone przez TD dla funkcjonariuszy",
-            customLogoUrl: "", // Np. "logo.png"
+            customLogoUrl: "",
             specializedTrainings: [
                 { code: "SEU", faIcon: "fa-gauge-high", name: "Speed Enforcement Unit", status: "Coming soon...", req: "Min. Oficer III (Rozdział 1)", desc: "Szkolenie umożliwiające prowadzenie jednostek pościgowych EDWARD podczas napadów, pościgów i patroli za zgodą PWC.", customContent: "" },
                 { code: "OCEAN", faIcon: "fa-anchor", name: "Ocean Patrol Unit", status: "Coming soon...", req: "Autoryzacja TD / PWC", desc: "Szkolenie motorowodne przygotowujące do operowania jednostkami morskimi typu OCEAN na wodach stanu San Andreas.", customContent: "" },
@@ -1104,7 +1246,7 @@
                 { code: "ASU", faIcon: "fa-helicopter", name: "Air Support Unit", status: "Coming soon...", req: "Min. Oficer III + Psychotesty (Rozdział 1)", desc: "Szkolenie pilotażu śmigłowca policyjnego EAGLE (Maverick) jako jednostki U0 wspierającej akcje z powietrza.", customContent: "" },
                 { code: "PWC-APWC", faIcon: "fa-chess-king", name: "Patrol Watch Commander & Assistant", status: "Coming soon...", req: "PWC: min. Sierżant I | APWC: min. Oficer III (Rozdział 4)", desc: "Szkolenie z zarządzania jednostkami patrolowymi na służbie, przydzielania patroli i autoryzacji jednostek.", customContent: "" },
                 { code: "SV", faIcon: "fa-user-shield", name: "Supervisor", status: "Coming soon...", req: "Min. Oficer III wyznaczany przez PWC (Rozdział 4)", desc: "Szkolenie z dowodzenia akcjami wysokiego ryzyka, pościgami, procedurą FTS oraz organizacją konwojów.", customContent: "" },
-                { code: "NEGO", faIcon: "fa-Handshake-angle", name: "Negotiator License (NL I / NL II)", status: "Coming soon...", req: "NL I: od Oficer I | NL II: od Oficer II + 10 negocjacji (Rozdział 1)", desc: "Szkolenie z prowadzenia negocjacji podczas napadów rabunkowych, porwań dla okupu oraz prób samobójczych.", customContent: "" },
+                { code: "NEGO", faIcon: "fa-handshake-angle", name: "Negotiator License (NL I / NL II)", status: "Coming soon...", req: "NL I: od Oficer I | NL II: od Oficer II + 10 negocjacji (Rozdział 1)", desc: "Szkolenie z prowadzenia negocjacji podczas napadów rabunkowych, porwań dla okupu oraz prób samobójczych.", customContent: "" },
                 { code: "RTO-HRO", faIcon: "fa-tower-cell", name: "Radio & Helicopter Radio Operator", status: "Coming soon...", req: "Znajomość Rozdziału 5 i wiązanek kodowych", desc: "Szkolenie z zaawansowanej komunikacji radiowej, prowadzenia korespondencji pościgowej i meldunków z pokładu EAGLE.", customContent: "" }
             ]
         };
@@ -1138,14 +1280,20 @@
             document.getElementById('update-modal').classList.add('hidden');
         }
 
-        // Powiadomienie o zgłaszaniu błędów do Qylo (Oley SASA) co 1,5 minuty (90 000 ms)
         let bugToastTimeout = null;
+        let bugCycleInterval = null;
+
         function showBugToast() {
             const toast = document.getElementById('bug-report-toast');
+            const bar = document.getElementById('bug-toast-bar');
             toast.classList.remove('hidden');
+            if (bar) {
+                bar.classList.remove('bug-progress-Countdown');
+                void bar.offsetWidth; // Restart CSS animation
+                bar.classList.add('bug-progress-Countdown');
+            }
             playSound('flip');
             clearTimeout(bugToastTimeout);
-            // Znika automatycznie po 18 sekundach (lub po kliknięciu X), po czym znów pojawia się za 1,5 minuty
             bugToastTimeout = setTimeout(() => {
                 hideBugToast();
             }, 18000);
@@ -1153,20 +1301,22 @@
 
         function hideBugToast() {
             document.getElementById('bug-report-toast').classList.add('hidden');
+            clearTimeout(bugToastTimeout);
         }
 
         function startBugReportCycle() {
-            // Pierwsze mignięcie po 15 sekundach, a następnie cyklicznie co dokładnie 1,5 minuty (90 000 ms)
+            // Pierwsze powiadomienie po 15 sekundach, a kolejne regularnie co 1,5 minuty (90 000 ms)
             setTimeout(() => {
                 showBugToast();
-                setInterval(() => {
+                if (bugCycleInterval) clearInterval(bugCycleInterval);
+                bugCycleInterval = setInterval(() => {
                     showBugToast();
                 }, 90000);
             }, 15000);
         }
 
         // =========================================================================
-        // WEB AUDIO API SYNTHESIZER
+        // WEB AUDIO API SYNTHESIZER (Z AUTO-RESUME DLA PRZEGLĄDAREK)
         // =========================================================================
         let soundEnabled = true;
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1174,13 +1324,16 @@
 
         function initAudio() {
             if (!audioCtx && AudioCtx) audioCtx = new AudioCtx();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
         }
 
         function playSound(type) {
             if (!soundEnabled) return;
             try {
                 initAudio();
-                if (!audioCtx) return;
+                if (!audioCtx || audioCtx.state !== 'running') return;
                 const now = audioCtx.currentTime;
                 if (type === 'check') {
                     const osc = audioCtx.createOscillator();
@@ -1396,7 +1549,7 @@
         ];
 
         // =========================================================================
-        // 2. DANE DO SYMULATORÓW TAKTYCZNYCH (FTS, TCCC, BROŃ, CoC)
+        // 2. DANE DO SYMULATORÓW TAKTYCZNYCH (FTS, TCCC, 13 ELEMENTÓW BRONI, CoC)
         // =========================================================================
         const ftsStepsData = [
             { step: 1, text: "Rozpoczęcie Kodu 6 (sygnały, zjazd na pobocze) i meldunek RTO na radiu o FTS + wezwanie wsparcia (10-21)." },
@@ -1442,19 +1595,21 @@
             ]}
         ];
 
+        // Wszystkie 13 podpisanych elementów z grafiki Glock 17 w Rozdziale 14
         const pistolPartsData = [
             { num: 1, name: "Muszka", desc: "Przedni przyrząd celowniczy umieszczony na przedzie zamka nad lufą." },
-            { num: 2, name: "Lufa", desc: "Element nadający kierunek i rotację pociskowi (Zasada BLOS: zawsze kieruj w cel, kulochwyt, powietrze lub 45° w ziemię)." },
-            { num: 3, name: "Szyna na latarkę lub laser", desc: "Szyna montażowa pod lufą. Pamiętaj: w LSPD dozwolona jest wyłącznie latarka taktyczna (zakaz innych dodatków!)." },
-            { num: 4, name: "Okno wylotowe łusek (komora nabojowa)", desc: "Miejsce ryglowania naboju i wyrzutu wystrzelonej łuski." },
-            { num: 5, name: "Blokada zamka", desc: "Element służący do demontażu zamka pistoletu podczas czyszczenia." },
-            { num: 6, name: "Kabłąk (osłona spustu)", desc: "Chroni język spustowy przed przypadkowym naciśnięciem." },
-            { num: 7, name: "Język spustowy", desc: "Zasada BLOS (Spust): palec kładziemy na spuście TYLKO w momencie oddawania strzału — w pozostałym czasie trzymamy na szkielecie broni." },
-            { num: 8, name: "Zatrzask magazynka", desc: "Przycisk zwalniający magazynek z chwytu pistoletu." },
-            { num: 9, name: "Zwalniacz zamka", desc: "Dźwignia zrzucająca zamek z tylnego położenia po załadowaniu pełnego magazynka." },
-            { num: 10, name: "Szczerbinka", desc: "Tylny przyrząd celowniczy na końcu zamka (zgrywany z muszką)." },
-            { num: 11, name: "Zamek", desc: "Górna ruchoma część pistoletu cofająca się podczas strzału." },
-            { num: 12, name: "Chwyt i Magazynek", desc: "Rękojeść broni mieszcząca magazynek (limit amunicji FP: max 60 + 12 załadowanych)." }
+            { num: 2, name: "Lufa", desc: "Element nadający kierunek pociskowi (Zasada BLOS: kieruj wyłącznie w cel, kulochwyt, powietrze lub 45° w ziemię)." },
+            { num: 3, name: "Szyna na latarkę lub laser", desc: "Szyna montażowa w przedniej części szkieletu. Pamiętaj: regulamin zezwala wyłącznie na latarkę do broni (zakaz innych dodatków!)." },
+            { num: 4, name: "Okno wylotowe łusek (komora nabojowa)", desc: "Miejsce ryglowania naboju i wyrzucania wystrzelonych łusek." },
+            { num: 5, name: "Blokada zamka", desc: "Rygiel w szkielecie służący do demontażu zamka pistoletu." },
+            { num: 6, name: "Kabłąk (osłona spustu)", desc: "Osłona zabezpieczająca język spustowy przed przypadkowym zahaczeniem." },
+            { num: 7, name: "Język spustowy", desc: "Zasada BLOS (Spust): palec kładziemy na języku spustowym TYLKO przy oddawaniu strzału — w pozostałym czasie trzymamy na szkielecie broni." },
+            { num: 8, name: "Zatrzask magazynka", desc: "Przycisk zwalniający magazynek z chwytu broni." },
+            { num: 9, name: "Zwalniacz zamka", desc: "Dźwignia zrzucająca zamek z tylnego położenia po wymianie magazynka." },
+            { num: 10, name: "Szczerbinka", desc: "Tylny przyrząd celowniczy na końcu zamka." },
+            { num: 11, name: "Zamek", desc: "Górna ruchoma część broni cofająca się podczas strzału." },
+            { num: 12, name: "Chwyt", desc: "Rękojeść pistoletu zapewniająca pewny chwyt strzelecki." },
+            { num: 13, name: "Magazynek", desc: "Mieści amunicję w chwycie (regulaminowy limit amunicji FP: max. 60 + 12 załadowanych)." }
         ];
 
         const cocRanksData = [
@@ -1499,7 +1654,7 @@
             { cat: "TCCC Medycyna", q: "Zasady zakładania stazy taktycznej CAT (Tourniquet) w protokole MARCH", a: "Czas: w ciągu 1 minuty! Miejsce: 5–7 cm (2–3 cale) nad raną kończyny — NIGDY bezpośrednio na stawie i NIGDY na szyi! Jeśli nie znasz źródła krwawienia: 'High and Tight'. Jeśli 1 staza nie wystarcza -> załóż drugą powyżej.", ref: "TCCC Moduł 04.1" },
             { cat: "TCCC Medycyna", q: "Procedura Wound Packing (Pakowanie rany) krok po kroku", a: "Stosowane w pachwinie, pasze i barku (ZAKAZ pakowania klatki piersiowej!).\n1. Wypełnij ranę gazą hemostatyczną, zostawiając 4–5 cm nad powierzchnią.\n2. Uciskaj mocno bezpośrednio przez min. 3 minuty.\n3. Załóż bandaż uciskowy.", ref: "TCCC Moduł 04.1" },
             { cat: "TCCC Medycyna", q: "Udrożnienie dróg oddechowych (Airway) przy podejrzeniu urazu kręgosłupa", a: "Usuń tylko widoczne przeszkody (zakaz ślepego przeszukiwania jamy ustnej palcem!). Przy podejrzeniu urazu kręgosłupa stosuj WYŁĄCZNIE manewr Jaw Thrust (wysunięcie żuchwy — bez odchylania głowy Head Tilt).", ref: "TCCC Moduł 04.2" },
-            { cat: "TCCC Medycyna", q: "Opatrywanie ran penetrujących klatki piersiowej i zabieg 'Burping'", a: "Na otwartą rana klatki zakładamy opatrunek okluzyjny Chest Seal (zakaz pakowania!). Jeśli narasta duszność (podejrzenie odmy prężnej) -> wykonaj 'Burping': na krótko unieś krawędź Chest Seala, wypuść powietrze i ponownie uszczelnij.", ref: "TCCC Moduł 04.3" },
+            { cat: "TCCC Medycyna", q: "Opatrywanie ran penetrujących klatki piersiowej i zabieg 'Burping'", a: "Na otwartą ranę klatki zakładamy opatrunek okluzyjny Chest Seal (zakaz pakowania!). Jeśli narasta duszność (podejrzenie odmy prężnej) -> wykonaj 'Burping': na krótko unieś krawędź Chest Seala, wypuść powietrze i ponownie uszczelnij.", ref: "TCCC Moduł 04.3" },
             { cat: "TCCC Medycyna", q: "6 elementów wchodzących w skład standardowego IFAK / OFAK oraz raport EMS Handoff", a: "IFAK (6): 1x CAT Gen 7 TQ, 1x Modular Bandage, 1x Beacon Chest Seal, 1x Trauma Shears, 1x Surgical Tape, 1x Nitrile Gloves.\nEMS Handoff (5): Location, Condition, Injury, Treatment, Change.", ref: "TCCC Moduł 07 i 08" }
         ];
 
@@ -1573,7 +1728,10 @@
         const radioBinds = [
             { title: "Meldunek rozpoczęcia FTS (Rozdział 7, pkt 1)", code: "[Numer odznaki + ilość osób] przeprowadzamy kod 6 do [model pojazdu] nasze 10-20 to [lokalizacja] będziemy przeprowadzać FTS 10-21." },
             { title: "Megafon FTS — Kluczyki i ręce (Rozdział 7, pkt 2)", code: "Kierowco wyciągnij kluczyki ze stacyjki i wyrzuć je przez okno. Następnie wszystkie osoby w pojeździe wyciągają ręce przez okno tak aby były one dla nas widoczne." },
-            { title: "Megafon FTS — Wyjście kierowcy (Rozdział 7, pkt 3)", code: "Kierowco, teraz lewą ręką otwórz drzwi od zewnątrz i wyjdź z rękoma podniesionymi ku górze, zrób dwa kroki w lewo od pojazdu a następnie podwiń koszulkę i obróć się 2 razy wokół własnej osi." },
+            { title: "Megafon FTS — 1. Kierowca (Rozdział 7, pkt 3)", code: "Kierowco, teraz lewą ręką otwórz drzwi od zewnątrz i wyjdź z rękoma podniesionymi ku górze, zrób dwa kroki w lewo od pojazdu a następnie podwiń koszulkę i obróć się 2 razy wokół własnej osi." },
+            { title: "Megafon FTS — 2. Pasażer obok kierowcy (Rozdział 7, pkt 3)", code: "Teraz pasażer obok kierowcy, prawą ręką od zewnątrz otwórz drzwi i wyjdź z rękoma uniesionymi ku górze, zrób dwa kroki w lewo od pojazdu a następnie podwiń koszulkę i obróć się 2 razy wokół własnej osi." },
+            { title: "Megafon FTS — 3. Pasażer z tyłu z prawej (Rozdział 7, pkt 3)", code: "Teraz pasażer z tyłu z prawej strony, prawą ręką od zewnątrz otwórz drzwi i wyjdź z rękoma uniesionymi ku górze, zrób dwa kroki w lewo od pojazdu a następnie podwiń koszulkę i obróć się 2 razy wokół własnej osi." },
+            { title: "Megafon FTS — 4. Pasażer za kierowcą (Rozdział 7, pkt 3)", code: "Teraz pasażer za kierowcą, lewą ręką od zewnątrz otwórz drzwi i wyjdź z rękoma uniesionymi ku górze, zrób dwa kroki w lewo od pojazdu a następnie podwiń koszulkę i obróć się 2 razy wokół własnej osi." },
             { title: "Meldunek rozpoczęcia pościgu 10-80 (Rozdział 8.1)", code: "[Numer odznaki + ilość osób] rozpoczynamy 10-80 za [model pojazdu] nasze 10-20 to [lokalizacja] [10-21 / 10-22]." },
             { title: "Meldunek transportu zatrzymanego (Rozdział 10.5)", code: "[Numer odznaki + ilość osób] 10-5 na komendę [nazwa komendy] z zatrzymanym." },
             { title: "Meldunek wjazdu na Status 7 (Rozdział 10.10)", code: "[Numer odznaki + ilość osób] status 7 na [nazwa komendy]." },
@@ -1631,22 +1789,31 @@
             { code: "Status 9", desc: "Zbiórka na komendzie przed konwojem (Rozdział 9.7)", cat: "STATUS" },
             { code: "CODE 1", desc: "Brak sygnalizacji świetlnej i dźwiękowej", cat: "SYGNAŁY" },
             { code: "CODE 2", desc: "Włączona sygnalizacja świetlna bez dźwiękowej", cat: "SYGNAŁY" },
-            { code: "CODE 3", desc: "Włączona sygnalizacja świetlna i dźwiękowa", cat: "SYGNAŁY" }
+            { code: "CODE 3", desc: "Włączona sygnalizacja świetlna i dźwiękowa", cat: "SYGNAŁY" },
+            { code: "ETA", desc: "Estimated Time of Arrival — oszacowanie czasu przybycia", cat: "SKRÓTY" },
+            { code: "ASAP", desc: "As soon as possible — jak najszybciej to możliwe", cat: "SKRÓTY" },
+            { code: "RTO / HRO", desc: "Radio-operator w radiowozie / Radio-operator w helikopterze", cat: "SKRÓTY" },
+            { code: "FTO / DISPATCH", desc: "Training Officer / Dyspozytor (Centrala)", cat: "SKRÓTY" },
+            { code: "\"Officer down!\"", desc: "Ranny / nieprzytomny funkcjonariusz", cat: "OKRZYKI" },
+            { code: "\"Shots fired!\"", desc: "Padły strzały", cat: "OKRZYKI" },
+            { code: "\"Sector clear!\"", desc: "Teren czysty", cat: "OKRZYKI" },
+            { code: "\"Suspect down!\"", desc: "Podejrzany postrzelony", cat: "OKRZYKI" },
+            { code: "\"One down!\"", desc: "Jeden postrzelony", cat: "OKRZYKI" }
         ];
 
         // =========================================================================
         // STATE & PERSISTENCE
         // =========================================================================
-        let completedItems = JSON.parse(localStorage.getItem('lea_td_cadet_progress_v6') || '{}');
+        let completedItems = JSON.parse(localStorage.getItem('lea_td_cadet_progress_v7') || '{}');
         let expandedDetails = {};
         let allDetailsExpanded = false;
-        let bonusXP = parseInt(localStorage.getItem('lea_td_bonus_xp_v6') || '0', 10);
+        let bonusXP = parseInt(localStorage.getItem('lea_td_bonus_xp_v7') || '0', 10);
         let hideCompleted = false;
         let activeTrainingCode = "SEU";
 
         function saveCadetName() {
             const val = document.getElementById('cadet-name-input').value;
-            localStorage.setItem('lea_td_cadet_name_v6', val);
+            localStorage.setItem('lea_td_cadet_name_v7', val);
         }
 
         function switchTab(tabId) {
@@ -1818,7 +1985,7 @@
                 spawnFloatingXP(event?.clientX, event?.clientY, "+25 XP");
             }
 
-            localStorage.setItem('lea_td_cadet_progress_v6', JSON.stringify(completedItems));
+            localStorage.setItem('lea_td_cadet_progress_v7', JSON.stringify(completedItems));
 
             const isNowModComplete = mod ? mod.items.every(i => completedItems[i.id]) : false;
             if (!wasModComplete && isNowModComplete) {
@@ -1838,7 +2005,7 @@
                 if (allDone) delete completedItems[i.id];
                 else completedItems[i.id] = true;
             });
-            localStorage.setItem('lea_td_cadet_progress_v6', JSON.stringify(completedItems));
+            localStorage.setItem('lea_td_cadet_progress_v7', JSON.stringify(completedItems));
             if (!allDone) {
                 playSound('levelup');
                 spawnFloatingXP(event?.clientX, event?.clientY, `+${mod.items.length * 25} XP`);
@@ -1877,14 +2044,14 @@
             if (confirm('Czy na pewno chcesz wyczyścić swój cały postęp nauki i punkty XP?')) {
                 completedItems = {};
                 bonusXP = 0;
-                localStorage.removeItem('lea_td_cadet_progress_v6');
-                localStorage.removeItem('lea_td_bonus_xp_v6');
+                localStorage.removeItem('lea_td_cadet_progress_v7');
+                localStorage.removeItem('lea_td_bonus_xp_v7');
                 renderExamModules();
             }
         }
 
         // =========================================================================
-        // SYMULATORY TAKTYCZNE (FTS, TCCC, KAUCJA/KONWÓJ, PISTOLET)
+        // SYMULATORY TAKTYCZNE (FTS, TCCC, KAUCJA/KONWÓJ, 13 CZĘŚCI PISTOLETU)
         // =========================================================================
         let ftsPool = [];
         let ftsSelected = [];
@@ -1926,7 +2093,7 @@
                 playSound('check');
                 spawnFloatingXP(event?.clientX, event?.clientY, "+10 XP");
                 bonusXP += 10;
-                localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
+                localStorage.setItem('lea_td_bonus_xp_v7', String(bonusXP));
                 if (ftsSelected.length === 8) {
                     playSound('levelup');
                     fireConfetti();
@@ -1971,7 +2138,7 @@
             if (ans === sc.correct) {
                 tcccStreak++;
                 bonusXP += 20;
-                localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
+                localStorage.setItem('lea_td_bonus_xp_v7', String(bonusXP));
                 playSound('check');
                 spawnFloatingXP(event?.clientX, event?.clientY, "+20 XP");
                 document.getElementById('tccc-sim-score').textContent = `Seria trafień: ${tcccStreak}`;
@@ -1986,10 +2153,11 @@
             }
         }
 
-        // Kalkulator Kaucji i Konwoju
+        // Kalkulator Kaucji i Konwoju (z 4 poziomami ryzyka odbicia)
         function updateBailConvoyCalc() {
             const months = parseInt(document.getElementById('calc-months').value, 10);
             const fp = parseInt(document.getElementById('calc-fp').value, 10);
+            const risk = document.getElementById('calc-risk').value;
             const severe = document.getElementById('calc-severe-charge').checked;
 
             document.getElementById('calc-months-val').textContent = `${months} mies.`;
@@ -1999,28 +2167,36 @@
             const minBailCost = months * 1000;
             const convoyRequired = months >= 100 && fp >= 6;
 
+            const riskDescriptions = {
+                "BRAK": "Transport pojazdem przeznaczonym (konwojentka) w obecności <strong>dwóch oficerów</strong>.",
+                "NISKIE": "Transport konwojentką (2 oficerów) eskortowaną przez pojazd typu <strong>ADAM lub LINCOLN z dwoma oficerami</strong>.",
+                "REALNE": "Transport konwojentką (2 oficerów) eskortowaną przez jednostkę <strong>S.W.A.T</strong>.",
+                "BEZPOŚREDNIE": "Transport odbywa się <strong>tylko i wyłącznie przez jednostkę S.W.A.T</strong> (SWAT CO może przejąć dowodzenie)."
+            };
+
             document.getElementById('calc-results-box').innerHTML = `
                 <div class="p-3.5 rounded-xl border ${bailEligible ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300' : 'bg-rose-950/30 border-rose-500/40 text-rose-300'}">
                     <div class="font-mono font-bold uppercase mb-1">Status Kaucji (Rozdział 10.19–10.25): ${bailEligible ? 'PRZYSŁUGUJE ✓' : 'NIE PRZYSŁUGUJE ✗'}</div>
                     <p class="text-slate-300">${bailEligible
-                        ? `Wyrok nie przekracza 50 miesięcy i brak zarzutów wykluczających. Minimalna kwota kaucji (1000$/mies.): <strong>$${minBailCost.toLocaleString()}</strong> (wymagany stopień min. Officer I oraz dopisek 'Wpłacona kaucja').`
-                        : `Kaucja wykluczona (${months > 50 ? 'wyrok powyżej 50 miesięcy' : ''}${months > 50 && severe ? ' oraz ' : ''}${severe ? 'posiada zarzut wykluczający z pkt 10.23' : ''}). Masz obowiązek poinformować obywatela, że kaucja mu nie przysługuje.`}</p>
+                        ? `Wyrok do 50 mies. i brak zarzutów wykluczających. Min. kwota (1000$/mies.): <strong>$${minBailCost.toLocaleString()}</strong> (od Officer I, wpis 'Wpłacona kaucja').`
+                        : `Kaucja wykluczona (${months > 50 ? 'wyrok > 50 mies.' : ''}${months > 50 && severe ? ' + ' : ''}${severe ? 'zarzut wykluczający z pkt 10.23' : ''}). Poinformuj obywatela o braku prawa do kaucji.`}</p>
                 </div>
                 <div class="p-3.5 rounded-xl border ${convoyRequired ? 'bg-amber-950/30 border-amber-500/40 text-amber-300' : 'bg-slate-900 border-slate-800 text-slate-300'}">
-                    <div class="font-mono font-bold uppercase mb-1">Status Konwoju (Rozdział 9.1–9.4): ${convoyRequired ? 'WYMAGANY KONWÓJ!' : 'BRAK WYMOGU KONWOJU (Chyba że zarządzi HC)'}</div>
-                    <p>${convoyRequired
-                        ? `Spełniono oba kryteria (wyrok min. 100 miesięcy oraz min. 6 dostępnych FP). Zgłoś potrzebę PWC, a SV zwołuje <strong>Status 9</strong> na komendzie.`
-                        : `Kryteria standardowego konwoju to min. 100 miesięcy wyroku oraz min. 6 dostępnych FP (High Command może jednak zarządzić konwój mimo niespełnienia kryteriów).`}</p>
+                    <div class="font-mono font-bold uppercase mb-1">Status Konwoju (Rozdział 9): ${convoyRequired ? 'WYMAGANY KONWÓJ (STATUS 9)!' : 'BRAK WYMOGU (Chyba że zarządzi HC)'}</div>
+                    <p class="mb-1">${convoyRequired
+                        ? `Spełniono kryteria (min. 100 mies. oraz min. 6 FP). Organizowany przez PWC lub min. Sierżant I. Prędkości: <strong>70 mph miasto / 100 mph autostrada (szachownica)</strong>.`
+                        : `Wymagane min. 100 mies. i min. 6 FP (HC może jednak zarządzić konwój mimo niespełnienia kryteriów).`}</p>
+                    <p class="text-cyan-300 border-t border-slate-800 pt-1.5 mt-1.5"><strong>Skład dla ryzyka [${risk}]:</strong> ${riskDescriptions[risk]}</p>
                 </div>
             `;
         }
 
-        // Schemat Budowy Pistoletu
+        // Schemat Budowy Pistoletu (13 części)
         function renderPistolDiagram() {
             const grid = document.getElementById('pistol-parts-grid');
             grid.innerHTML = pistolPartsData.map(p => `
-                <button onclick="selectPistolPart(${p.num})" class="p-2.5 rounded-xl bg-slate-900 hover:bg-blue-600/20 border border-slate-800 hover:border-blue-400 text-left transition-all">
-                    <span class="font-mono text-[11px] font-bold text-cyan-400">#${p.num}</span>
+                <button onclick="selectPistolPart(${p.num})" class="p-2 rounded-xl bg-slate-900 hover:bg-blue-600/20 border border-slate-800 hover:border-blue-400 text-left transition-all">
+                    <span class="font-mono text-[10px] font-bold text-cyan-400">#${p.num}</span>
                     <div class="text-xs font-bold text-white truncate">${p.name}</div>
                 </button>
             `).join('');
@@ -2104,7 +2280,7 @@
         function markCardMastered(event) {
             masteredCount++;
             bonusXP += 15;
-            localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
+            localStorage.setItem('lea_td_bonus_xp_v7', String(bonusXP));
             document.getElementById('fc-mastered-badge').textContent = `Opanowane w tej sesji: ${masteredCount}`;
             playSound('check');
             spawnFloatingXP(event?.clientX, event?.clientY, "+15 XP");
@@ -2112,7 +2288,7 @@
             nextCard();
         }
 
-        // Command Palette (Ctrl + K)
+        // Command Palette (Ctrl + K) z klikalną nawigacją
         function openCommandPalette() {
             document.getElementById('cmd-modal').classList.remove('hidden');
             const inp = document.getElementById('cmd-input');
@@ -2125,19 +2301,30 @@
             document.getElementById('cmd-modal').classList.add('hidden');
         }
 
+        function jumpFromCommand(tabName, targetId) {
+            closeCommandPalette();
+            switchTab(tabName);
+            if (targetId) {
+                setTimeout(() => {
+                    const el = document.getElementById(targetId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
         function renderCommandResults() {
             const q = (document.getElementById('cmd-input').value || '').toLowerCase();
             const res = document.getElementById('cmd-results');
             const pool = [
-                ...radioCodesList.map(r => ({ type: `KOD (${r.cat})`, title: `${r.code} — ${r.desc}`, sub: "Rozdział 5 • Komunikacja Radiowa" })),
-                ...examModules.flatMap(m => m.items.map(i => ({ type: m.shortName, title: i.text, sub: i.ref })))
+                ...radioCodesList.map(r => ({ type: `KOD (${r.cat})`, title: `${r.code} — ${r.desc}`, sub: "Kliknij, aby przejść do zakładki Kody & Ściąga", tab: "cheatsheet", id: "" })),
+                ...examModules.flatMap(m => m.items.map(i => ({ type: m.shortName, title: i.text, sub: i.ref, tab: "exam", id: m.id })))
             ].filter(x => x.title.toLowerCase().includes(q) || x.sub.toLowerCase().includes(q)).slice(0, 12);
 
             res.innerHTML = pool.map(item => `
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-start justify-between gap-3">
+                <div onclick="jumpFromCommand('${item.tab}', '${item.id}')" class="p-3 rounded-xl bg-slate-900/90 hover:bg-blue-950/40 border border-slate-800 hover:border-blue-500/50 cursor-pointer flex items-start justify-between gap-3 transition-all">
                     <div class="text-xs">
                         <div class="font-bold text-white">${item.title}</div>
-                        <div class="font-mono text-[11px] text-slate-400 mt-0.5">${item.sub}</div>
+                        <div class="font-mono text-[11px] text-cyan-400 mt-0.5">${item.sub}</div>
                     </div>
                     <span class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 font-mono text-[10px] font-bold shrink-0">${item.type}</span>
                 </div>
@@ -2340,7 +2527,7 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('lea_td_cadet_name_v6');
+            const savedName = localStorage.getItem('lea_td_cadet_name_v7');
             if (savedName) document.getElementById('cadet-name-input').value = savedName;
             if (TD_CONFIG.customLogoUrl) {
                 document.getElementById('header-logo-container').innerHTML = `<img src="${TD_CONFIG.customLogoUrl}" alt="TD Logo" class="w-full h-full object-contain rounded-[14px] bg-slate-950 p-1">`;
