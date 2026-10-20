@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD & BCSO — Terminal Szkoleniowy Kadeta & TCCC | Training Division</title>
+    <title>TD-NET // System A.T.L.A.S. — Terminal Szkoleniowy LSPD & BCSO</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ikony z internetu: FontAwesome 6.5.1 + Lucide Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
@@ -13,15 +17,15 @@
         :root {
             --accent-primary: #2563eb;
             --accent-secondary: #06b6d4;
-            --accent-glow: rgba(37, 99, 235, 0.25);
+            --accent-glow: rgba(37, 99, 235, 0.28);
             --bg-main: #03060c;
-            --bg-card: rgba(11, 18, 33, 0.84);
+            --bg-card: rgba(11, 18, 33, 0.85);
         }
 
         body.theme-bcso {
             --accent-primary: #d97706;
             --accent-secondary: #10b981;
-            --accent-glow: rgba(217, 119, 6, 0.25);
+            --accent-glow: rgba(217, 119, 6, 0.28);
         }
 
         body {
@@ -29,10 +33,10 @@
             background-color: var(--bg-main);
             background-image: 
                 radial-gradient(at 0% 0%, var(--accent-glow) 0px, transparent 45%),
-                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 45%),
-                radial-gradient(at 50% 100%, rgba(225, 29, 72, 0.08) 0px, transparent 50%),
-                linear-gradient(to right, rgba(30, 41, 59, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(30, 41, 59, 0.1) 1px, transparent 1px);
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.14) 0px, transparent 45%),
+                radial-gradient(at 50% 100%, rgba(225, 29, 72, 0.09) 0px, transparent 50%),
+                linear-gradient(to right, rgba(30, 41, 59, 0.11) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.11) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
             background-attachment: fixed;
             color: #e2e8f0;
@@ -44,53 +48,130 @@
         .glass-card {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(51, 65, 85, 0.6);
-            box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(51, 65, 85, 0.65);
+            box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.75);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .glass-card-hover {
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
         .glass-card-hover:hover {
-            transform: translateY(-2px);
-            border-color: rgba(56, 189, 248, 0.55);
-            box-shadow: 0 18px 42px -12px var(--accent-glow);
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 20px 44px -12px var(--accent-glow);
         }
 
         .td-neon-badge {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.28) 0%, rgba(6, 182, 212, 0.28) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.55);
-            box-shadow: 0 0 22px rgba(56, 189, 248, 0.2);
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.3) 0%, rgba(6, 182, 212, 0.3) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 24px rgba(56, 189, 248, 0.25);
+        }
+
+        /* =========================================================================
+           ZAAWANSOWANE ANIMACJE IKON I ELEMENTÓW UI
+           ========================================================================= */
+        /* 1. Lewitacja (Floating) */
+        .anim-float {
+            animation: floatIcon 3.2s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* 2. Bicie serca dla TCCC / Medycyny */
+        .anim-heartbeat {
+            animation: heartBeat 1.6s infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.25); color: #fb7185; filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.8)); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.18); color: #f43f5e; }
+            70% { transform: scale(1); }
+        }
+
+        /* 3. Kogut Policyjny (Czerwono-Niebieski błysk + drganie) */
+        .anim-siren {
+            animation: policeSiren 1.1s infinite;
+        }
+        @keyframes policeSiren {
+            0%, 100% { color: #38bdf8; filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.9)); transform: rotate(-6deg) scale(1.08); }
+            50% { color: #f43f5e; filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.9)); transform: rotate(6deg) scale(1.08); }
+        }
+
+        /* 4. Pulsowanie Radaru / Komunikacji */
+        .anim-radar {
+            animation: radarWave 2.4s infinite ease-in-out;
+        }
+        @keyframes radarWave {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.4)); }
+            50% { transform: scale(1.15) rotate(12deg); filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.9)); }
+        }
+
+        /* 5. Złoty Blask Trofeum / Odznaki */
+        .anim-trophy {
+            animation: trophyShine 2.5s infinite ease-in-out;
+        }
+        @keyframes trophyShine {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.4)); }
+            50% { transform: scale(1.16) rotate(-5deg); filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.95)); }
+        }
+
+        /* 6. Obrót Zębatki / Systemu */
+        .anim-spin-slow {
+            animation: spinSlow 9s linear infinite;
+        }
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 7. Animacja wejścia Modala Aktualizacji */
+        .modal-pop-in {
+            animation: modalPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.82) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* 8. Animacja wjazdu Powiadomienia o Błędach (Qylo) */
+        .bug-toast-enter {
+            animation: slideInRight 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(120%) scale(0.9); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
         }
 
         /* Custom Dopamine Checkbox */
         .dopamine-check {
             appearance: none;
-            width: 1.4rem;
-            height: 1.4rem;
+            width: 1.45rem;
+            height: 1.45rem;
             border: 2px solid #475569;
             border-radius: 0.5rem;
             background-color: #090e1a;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
             flex-shrink: 0;
         }
         .dopamine-check:hover {
             border-color: #38bdf8;
-            transform: scale(1.1);
+            transform: scale(1.12) rotate(3deg);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
         }
         .dopamine-check:checked {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border-color: #34d399;
-            box-shadow: 0 0 16px rgba(16, 185, 129, 0.6);
-            transform: scale(1.05);
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.65);
+            transform: scale(1.06);
         }
         .dopamine-check:checked::after {
             content: '✓';
             position: absolute;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             font-weight: 900;
             top: 50%;
             left: 50%;
@@ -161,42 +242,123 @@
 <body class="min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
 
     <!-- =========================================================================
+         MODAL AKTUALIZACJI NA ŚRODKU EKRANU (Z PRZYCISKIEM "ROZUMIEM")
+         ========================================================================= -->
+    <div id="update-modal" class="fixed inset-0 z-[100] hidden bg-slate-950/85 backdrop-blur-lg flex items-center justify-center p-4">
+        <div class="glass-card modal-pop-in w-full max-w-lg rounded-3xl border-2 border-cyan-500/60 p-6 sm:p-8 relative overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.25)]">
+            <div class="absolute -top-20 -right-20 w-56 h-56 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -left-20 w-56 h-56 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center space-y-4 relative z-10">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5 mx-auto shadow-lg shadow-cyan-950/60 anim-float">
+                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-cyan-400 text-2xl">
+                        <i class="fa-solid fa-satellite-dish anim-radar"></i>
+                    </div>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full td-neon-badge text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-bolt text-amber-400 anim-trophy"></i>
+                    <span>Nowa Aktualizacja Terminalu TD-NET</span>
+                </div>
+
+                <div>
+                    <h2 id="update-modal-title" class="text-2xl font-black text-white tracking-tight">Aktualizacja Systemu A.T.L.A.S.</h2>
+                    <p id="update-modal-version" class="text-xs font-mono text-blue-400 mt-1">Wersja systemu: v2.5 • Stworzone przez TD dla funkcjonariuszy</p>
+                </div>
+
+                <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 text-left space-y-2.5 text-xs sm:text-sm text-slate-300 max-h-60 overflow-y-auto">
+                    <div class="text-[11px] font-mono uppercase text-cyan-400 font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-code-commit"></i> Lista zmian w najnowszej wersji:
+                    </div>
+                    <ul id="update-modal-list" class="space-y-2 text-xs leading-relaxed">
+                        <!-- Wypełniane z TD_CONFIG -->
+                    </ul>
+                </div>
+
+                <div class="p-3 rounded-xl bg-blue-950/30 border border-blue-500/30 text-[11px] font-mono text-slate-300 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-discord text-indigo-400 text-sm"></i>
+                    <span>Znalazłeś błąd? Napisz do <strong class="text-white">Qylo (Oley SASA)</strong> na Discordzie lub zgłoś się <strong class="text-cyan-400">IC</strong>!</span>
+                </div>
+
+                <button onclick="dismissUpdateModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-extrabold text-sm tracking-wide uppercase shadow-xl shadow-cyan-950/60 transition-all transform hover:scale-[1.02] active:scale-[0.99] flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check text-base"></i>
+                    <span>Rozumiem</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         POWIADOMIENIE BOCZNE CO 1,5 MINUTY (ZGŁASZANIE BŁĘDÓW DO QYLO / IC)
+         ========================================================================= -->
+    <div id="bug-report-toast" class="fixed bottom-6 right-5 z-[90] hidden max-w-sm w-full px-4 sm:px-0">
+        <div class="glass-card bug-toast-enter rounded-2xl p-4 border-2 border-cyan-500/60 shadow-[0_0_30px_rgba(6,182,212,0.3)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 via-cyan-400 to-emerald-400"></div>
+            <div class="flex items-start gap-3.5 pl-2">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5">
+                    <i class="fa-solid fa-headset text-lg anim-float"></i>
+                </div>
+                <div class="flex-1 text-xs leading-relaxed">
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <span class="font-mono font-extrabold text-cyan-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+                            Komunikat Techniczny TD-NET
+                        </span>
+                        <button onclick="hideBugToast()" class="text-slate-400 hover:text-white transition-colors">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+                    <p class="text-slate-200">
+                        Znalazłeś błąd w systemie lub literówkę w materiałach? Napisz bezpośrednio do <strong class="text-amber-400 font-mono">Qylo (Oley SASA)</strong> na Discordzie bądź zgłoś się <strong class="text-emerald-400 font-mono">IC</strong>!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
          TOP BAR: STWORZONE PRZEZ TD DLA FUNKCJONARIUSZY + NARZĘDZIA
          ========================================================================= -->
     <div class="bg-slate-950/95 border-b border-blue-500/30 py-2 px-4">
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2.5">
+            <div class="flex flex-wrap items-center gap-2.5">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-dot"></span>
                 <span class="font-mono font-bold text-cyan-300 px-3.5 py-0.5 rounded-full td-neon-badge flex items-center gap-1.5">
-                    <i data-lucide="award" class="w-3.5 h-3.5 text-blue-400"></i>
+                    <i class="fa-solid fa-medal text-amber-400 anim-trophy"></i>
                     <span id="td-branding-top">Stworzone przez TD dla funkcjonariuszy</span>
                 </span>
                 <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-2.5 py-0.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-blue-500/50 text-slate-400 hover:text-white font-mono text-[11px] transition-all">
-                    <i data-lucide="search" class="w-3 h-3 text-cyan-400"></i>
-                    <span>Szybkie szukanie</span>
+                    <i class="fa-solid fa-magnifying-glass text-cyan-400"></i>
+                    <span>Szukaj w bazie</span>
                     <kbd class="px-1.5 py-0.2 bg-slate-800 text-slate-300 rounded text-[10px]">Ctrl+K</kbd>
                 </button>
             </div>
 
-            <!-- Right Controls: Department Switcher, Pomodoro & Sound -->
+            <!-- Right Controls -->
             <div class="flex flex-wrap items-center gap-2">
+                <!-- Przycisk podglądu aktualizacji -->
+                <button onclick="openUpdateModal()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-cyan-500/15 border border-cyan-500/40 hover:bg-cyan-500/25 text-cyan-300 font-mono text-[11px] font-bold transition-all">
+                    <i class="fa-solid fa-bell anim-siren"></i>
+                    <span>Update Info</span>
+                </button>
+
                 <!-- Department Theme Switcher -->
                 <button onclick="toggleDepartmentTheme()" id="dept-theme-btn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/40 text-blue-400 font-mono text-[11px] font-bold transition-all">
-                    <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                    <i class="fa-solid fa-shield-halved"></i>
                     <span id="dept-theme-label">Motyw: LSPD</span>
                 </button>
 
                 <!-- Pomodoro -->
                 <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 px-2.5 py-1 rounded-xl font-mono text-[11px]">
-                    <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <i class="fa-solid fa-stopwatch text-amber-400 anim-float"></i>
                     <span id="pomodoro-display" class="font-bold text-white">25:00</span>
                     <button onclick="togglePomodoro()" id="pomodoro-btn" class="px-1.5 py-0.2 rounded bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white transition-all font-bold">Start</button>
-                    <button onclick="resetPomodoro()" class="text-slate-500 hover:text-slate-300" title="Reset"><i data-lucide="rotate-ccw" class="w-3 h-3"></i></button>
+                    <button onclick="resetPomodoro()" class="text-slate-500 hover:text-slate-300" title="Reset"><i class="fa-solid fa-rotate-left"></i></button>
                 </div>
 
                 <!-- Sound Toggle -->
                 <button onclick="toggleSound()" id="sound-toggle-btn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/40 text-emerald-400 font-mono text-[11px] transition-all">
-                    <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+                    <i class="fa-solid fa-volume-high"></i>
                     <span id="sound-label" class="hidden sm:inline">SFX: ON</span>
                 </button>
             </div>
@@ -204,59 +366,61 @@
     </div>
 
     <!-- =========================================================================
-         HEADER & MAIN NAVIGATION
+         HEADER & MAIN NAVIGATION (TERMINAL TD-NET // SYSTEM A.T.L.A.S.)
          ========================================================================= -->
     <header class="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col xl:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3.5 w-full xl:w-auto justify-between xl:justify-start">
                 <div class="flex items-center gap-3.5">
-                    <div id="header-logo-container" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-emerald-500 p-0.5 shadow-lg shadow-blue-900/50">
-                        <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-cyan-400">
-                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    <div id="header-logo-container" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-emerald-500 p-0.5 shadow-lg shadow-blue-900/50 anim-float">
+                        <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-cyan-400 text-xl">
+                            <i class="fa-solid fa-building-shield"></i>
                         </div>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30">TRAINING DIVISION</span>
-                            <span class="text-xs font-mono text-slate-400 hidden sm:inline">Kompendium LEA + TCCC</span>
+                            <span class="text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 flex items-center gap-1">
+                                <i class="fa-solid fa-microchip anim-spin-slow"></i> TD-NET // SYSTEM A.T.L.A.S.
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 hidden sm:inline">Intranet Szkoleniowy LEA & TCCC</span>
                         </div>
-                        <h1 class="text-lg sm:text-xl font-black tracking-tight text-white">Terminal Przygotowawczy — Egzamin Oficerski</h1>
+                        <h1 class="text-lg sm:text-xl font-black tracking-tight text-white">Terminal Szkoleniowy Kadeta — Egzamin Oficerski</h1>
                     </div>
                 </div>
 
                 <button onclick="openCommandPalette()" class="md:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400">
-                    <i data-lucide="search" class="w-5 h-5"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
 
-            <!-- Navigation Tabs (7 Tabs) -->
+            <!-- Navigation Tabs (7 Tabs with Animated Internet Icons) -->
             <nav class="flex flex-wrap items-center justify-center gap-1.5 bg-slate-900/95 p-1.5 rounded-2xl border border-slate-800 w-full xl:w-auto">
-                <button onclick="switchTab('exam')" id="tab-exam" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow-lg shadow-blue-950/60">
-                    <i data-lucide="check-square" class="w-4 h-4"></i>
+                <button onclick="switchTab('exam')" id="tab-exam" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow-lg shadow-blue-950/60">
+                    <i class="fa-solid fa-clipboard-check text-cyan-200 group-hover:scale-125 transition-transform"></i>
                     <span>1. Egzamin (7 Działów)</span>
                 </button>
-                <button onclick="switchTab('simulators')" id="tab-simulators" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="gamepad-2" class="w-4 h-4 text-emerald-400"></i>
+                <button onclick="switchTab('simulators')" id="tab-simulators" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-vr-cardboard text-emerald-400 anim-float"></i>
                     <span>2. Symulatory (Lab)</span>
                 </button>
-                <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+                <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-bolt-lightning text-amber-400 anim-trophy"></i>
                     <span>3. Fiszki 3D</span>
                 </button>
-                <button onclick="switchTab('compendium')" id="tab-compendium" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="book-open" class="w-4 h-4 text-blue-400"></i>
+                <button onclick="switchTab('compendium')" id="tab-compendium" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-book-journal-whills text-blue-400 group-hover:rotate-6 transition-transform"></i>
                     <span>4. Kompendium (1–15)</span>
                 </button>
-                <button onclick="switchTab('tccc')" id="tab-tccc" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="heart-pulse" class="w-4 h-4 text-rose-400"></i>
+                <button onclick="switchTab('tccc')" id="tab-tccc" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-heart-pulse text-rose-500 anim-heartbeat"></i>
                     <span>5. TCCC Medycyna</span>
                 </button>
-                <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i>
+                <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-walkie-talkie text-cyan-400 anim-radar"></i>
                     <span>6. Kody & Ściąga</span>
                 </button>
-                <button onclick="switchTab('trainings')" id="tab-trainings" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
-                    <i data-lucide="award" class="w-4 h-4 text-purple-400"></i>
+                <button onclick="switchTab('trainings')" id="tab-trainings" class="tab-btn group flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-award text-purple-400 anim-trophy"></i>
                     <span>7. Szkolenia</span>
                 </button>
             </nav>
@@ -278,31 +442,35 @@
                 <div class="lg:col-span-7 space-y-4">
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="px-3 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold flex items-center gap-1.5">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-400"></i>
+                            <i class="fa-solid fa-star text-amber-400 anim-trophy"></i>
                             Stworzone przez TD dla funkcjonariuszy
                         </span>
-                        <span id="xp-counter-pill" class="px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-extrabold">
-                            0 XP ZDOBYTE
+                        <span id="xp-counter-pill" class="px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-extrabold flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire-flame-curved text-amber-400"></i>
+                            <span id="xp-text-val">0 XP ZDOBYTE</span>
                         </span>
                         <!-- Cadet Callsign Input -->
                         <div class="flex items-center gap-1.5 bg-slate-950/90 border border-slate-800 rounded-lg px-2.5 py-1">
-                            <i data-lucide="user-check" class="w-3.5 h-3.5 text-slate-400"></i>
-                            <input type="text" id="cadet-name-input" oninput="saveCadetName()" placeholder="Wpisz swój Nick / Odznakę..." class="bg-transparent text-xs font-mono text-white placeholder-slate-500 focus:outline-none w-44">
+                            <i class="fa-solid fa-id-badge text-cyan-400"></i>
+                            <input type="text" id="cadet-name-input" oninput="saveCadetName()" placeholder="Wpisz Imię / Odznakę IC..." class="bg-transparent text-xs font-mono text-white placeholder-slate-500 focus:outline-none w-44">
                         </div>
                     </div>
 
                     <div>
-                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">
-                            Oficjalny Sylabus & Trenażer Egzaminu Oficerskiego
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
+                            <span>Terminal Dydaktyczny TD-NET (System A.T.L.A.S.)</span>
                         </h2>
                         <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-                            Opanuj wszystkie podpunkty z <strong>7 działów egzaminacyjnych</strong> (rozwiń dowolny podpunkt, aby przeczytać streszczenie przepisów), trenuj na <strong>Symulatorach Taktycznych</strong> i odbierz certyfikat gotowości.
+                            Oficjalna baza wiedzy przygotowująca do <strong>Egzaminu Oficerskiego</strong>. Zaznaczaj opanowane zagadnienia z 7 działów, rozwijaj ściągi z przepisami, ćwicz na symulatorach i odbierz <strong>Kartę Gotowości Kadeta</strong>.
                         </p>
                     </div>
 
                     <!-- 7 Mini Achievement Badges -->
                     <div>
-                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2">Odznaki ukończonych działów egzaminu (Kliknij, aby przejść):</div>
+                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-trophy text-amber-400"></i>
+                            <span>Odznaki ukończonych działów egzaminu (Kliknij, aby przejść):</span>
+                        </div>
                         <div id="hud-badges-row" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
@@ -311,11 +479,11 @@
                 <div class="lg:col-span-5 bg-slate-950/90 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-inner">
                     <div class="flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
-                            <div id="rank-icon-box" class="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/40 flex items-center justify-center text-blue-400 font-mono font-black text-lg shadow-lg">
+                            <div id="rank-icon-box" class="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/40 flex items-center justify-center text-blue-400 font-mono font-black text-lg shadow-lg anim-float">
                                 R15
                             </div>
                             <div>
-                                <div class="text-[11px] font-mono uppercase text-slate-400">Aktualny Stopień Opanowania</div>
+                                <div class="text-[11px] font-mono uppercase text-slate-400">Poziom Gotowości Bojowej</div>
                                 <div id="rank-name-display" class="text-base sm:text-lg font-extrabold text-white">15. Recruit (Kadet)</div>
                             </div>
                         </div>
@@ -329,11 +497,11 @@
                     <div class="flex flex-wrap items-center justify-between gap-2 text-xs pt-1">
                         <span id="progress-count-text" class="font-mono text-slate-300">Zaliczono: 0 / 0 zagadnień</span>
                         <div class="flex items-center gap-2">
-                            <button onclick="openCertificateModal()" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all">
-                                <i data-lucide="file-badge" class="w-3.5 h-3.5"></i> Karta Kadeta
+                            <button onclick="openCertificateModal()" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 font-mono text-[11px] font-bold flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-certificate anim-trophy"></i> Karta Kadeta
                             </button>
                             <button onclick="resetProgress()" class="text-slate-500 hover:text-rose-400 transition-colors flex items-center gap-1 font-mono text-[11px]">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Reset
+                                <i class="fa-solid fa-trash-can"></i> Reset
                             </button>
                         </div>
                     </div>
@@ -347,24 +515,25 @@
         <section id="view-exam" class="space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
-                        <i data-lucide="list-checks" class="w-5 h-5 text-blue-400"></i>
-                        7 Działów Ocenianych na Egzaminie Oficerskim (Sylabus + Rozwijana Wiedza)
+                    <h3 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-list-check text-blue-400 anim-float"></i>
+                        <span>7 Działów Ocenianych na Egzaminie Oficerskim (Sylabus + Rozwijana Wiedza)</span>
                     </h3>
-                    <p class="text-xs sm:text-sm text-slate-400">Kliknij przycisk <strong>„Rozwiń ściągę”</strong> przy dowolnym podpunkcie, aby zobaczyć dokładne przepisy z Kompendium lub TCCC bez opuszczania listy.</p>
+                    <p class="text-xs sm:text-sm text-slate-400">Kliknij przycisk <strong>„Rozwiń ściągę”</strong> przy dowolnym podpunkcie, aby wyświetlić dokładne wytyczne z Kompendium lub TCCC.</p>
                 </div>
 
                 <!-- Controls -->
                 <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                    <button onclick="expandAllDetails()" id="expand-all-btn" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-xs font-mono text-cyan-400 whitespace-nowrap transition-all">
-                        Rozwiń wszystkie ściągi
+                    <button onclick="expandAllDetails()" id="expand-all-btn" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-xs font-mono text-cyan-400 whitespace-nowrap transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span id="expand-all-label">Rozwiń wszystkie ściągi</span>
                     </button>
                     <button onclick="toggleHideCompleted()" id="hide-completed-btn" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/40 text-xs font-mono text-slate-300 whitespace-nowrap transition-all">
                         Ukryj zaliczone: OFF
                     </button>
                     <div class="relative flex-1 md:w-60">
-                        <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                        <input type="text" id="exam-search" oninput="renderExamModules()" placeholder="Filtruj podpunkty..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+                        <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"></i>
+                        <input type="text" id="exam-search" oninput="renderExamModules()" placeholder="Filtruj podpunkty..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
             </div>
@@ -379,10 +548,10 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
-                        <i data-lucide="cpu" class="w-4 h-4"></i>
-                        <span>INTERAKTYWNE LABORATORIUM TAKTYCZNE • STWORZONE PRZEZ TD DLA FUNKCJONARIUSZY</span>
+                        <i class="fa-solid fa-microchip anim-spin-slow"></i>
+                        <span>SYMULATORY TAKTYCZNE TD-NET • STWORZONE PRZEZ TD DLA FUNKCJONARIUSZY</span>
                     </div>
-                    <h3 class="text-xl font-extrabold text-white">Symulatory Praktyczne (FTS, TCCC MARCH, Kaucja & Konwój, Budowa Broni)</h3>
+                    <h3 class="text-xl font-extrabold text-white">Laboratorium Praktyczne (FTS, TCCC MARCH, Kaucja & Konwój, Budowa Broni)</h3>
                     <p class="text-xs sm:text-sm text-slate-400">Przećwicz procedury praktyczne oceniane na egzaminie oficerskim i zdobywaj dodatkowe punkty XP.</p>
                 </div>
             </div>
@@ -391,12 +560,14 @@
             <div class="glass-card rounded-3xl p-6 space-y-5 border-l-4 border-l-amber-500">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                     <div>
-                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">Symulator 1 • Rozdział 7</span>
+                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                            <i class="fa-solid fa-car-On mr-1"></i> Symulator 1 • Rozdział 7
+                        </span>
                         <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Procedury FTS (Felony Traffic Stop — Kroki 1–8)</h4>
-                        <p class="text-xs text-slate-400">Klikaj w kafelki poniżej w **dokładnej kolejności chronologicznej** (od kroku 1 do kroku 8), w jakiej przeprowadza się zatrzymanie wysokiego ryzyka.</p>
+                        <p class="text-xs text-slate-400">Klikaj w kafelki poniżej w <strong>dokładnej kolejności chronologicznej</strong> (od kroku 1 do kroku 8), w jakiej przeprowadza się zatrzymanie wysokiego ryzyka.</p>
                     </div>
                     <button onclick="initFtsSimulator()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-amber-400 flex items-center gap-1.5 self-start sm:self-center">
-                        <i data-lucide="shuffle" class="w-3.5 h-3.5"></i> Wymieszaj ponownie
+                        <i class="fa-solid fa-shuffle"></i> Wymieszaj ponownie
                     </button>
                 </div>
 
@@ -416,26 +587,27 @@
             <div class="glass-card rounded-3xl p-6 space-y-5 border-l-4 border-l-rose-500">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                     <div>
-                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30">Symulator 2 • LSPD Medical Handbook (TCCC)</span>
+                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30">
+                            <i class="fa-solid fa-kit-medical anim-heartbeat mr-1"></i> Symulator 2 • LSPD Medical Handbook (TCCC)
+                        </span>
                         <h4 class="text-lg font-extrabold text-white mt-1">Interaktywny Trenażer Zaopatrzenia Rannych (Protokół MARCH)</h4>
-                        <p class="text-xs text-slate-400">Wybierz lokalizację urazu lub stan poszkodowanego po strzelaninie i wskaż jedyne prawidłowe postępowanie zgodne z podręcznikiem TCCC.</p>
+                        <p class="text-xs text-slate-400">Przeczytaj opis obrażeń poszkodowanego po strzelaninie i wskaż jedyne prawidłowe postępowanie zgodne z podręcznikiem TCCC.</p>
                     </div>
                     <span id="tccc-sim-score" class="font-mono text-xs px-3 py-1.5 rounded-xl bg-rose-500/15 text-rose-300 border border-rose-500/30 font-bold self-start sm:self-center">
                         Seria trafień: 0
                     </span>
                 </div>
 
-                <div id="tccc-sim-box" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                    <!-- Populated by JS -->
-                </div>
+                <div id="tccc-sim-box" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"></div>
             </div>
 
-            <!-- SIMULATOR 3: KALKULATOR KAUCJI (STATUS 7) ORAZ KONWOJU (ROZDZIAŁ 9 i 10) -->
+            <!-- SIMULATOR 3 & 4: KALKULATOR KAUCJI / KONWOJU ORAZ BUDOWA PISTOLETU -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Kalkulator Kaucji i Konwoju -->
                 <div class="glass-card rounded-3xl p-6 space-y-4 border-l-4 border-l-purple-500">
                     <div>
-                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">Symulator 3 • Rozdział 9 i 10</span>
+                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                            <i class="fa-solid fa-scale-balanced mr-1"></i> Symulator 3 • Rozdział 9 i 10
+                        </span>
                         <h4 class="text-lg font-extrabold text-white mt-1">Kalkulator Kaucji (Status 7) & Kryteriów Konwoju</h4>
                         <p class="text-xs text-slate-400">Sprawdź, jak parametry wyroku i zarzuty wpływają na prawo do kaucji oraz obowiązek organizacji konwoju.</p>
                     </div>
@@ -463,15 +635,14 @@
 
                 <!-- Interaktywny Schemat Budowy Pistoletu (Rozdział 14) -->
                 <div class="glass-card rounded-3xl p-6 space-y-4 border-l-4 border-l-cyan-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">Symulator 4 • Rozdział 14</span>
-                            <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Budowy Pistoletu (Glock 17)</h4>
-                            <p class="text-xs text-slate-400">Kliknij na dowolny numer na schemacie (1–12), aby sprawdzić element budowy broni oraz klasyfikację Klasy I–IV.</p>
-                        </div>
+                    <div>
+                        <span class="text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                            <i class="fa-solid fa-crosshairs mr-1"></i> Symulator 4 • Rozdział 14
+                        </span>
+                        <h4 class="text-lg font-extrabold text-white mt-1">Trenażer Budowy Pistoletu (Glock 17)</h4>
+                        <p class="text-xs text-slate-400">Kliknij na dowolny numer na schemacie (1–12), aby sprawdzić element budowy broni oraz zasady BLOS.</p>
                     </div>
 
-                    <!-- Interactive Weapon Diagram Box -->
                     <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
                         <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="pistol-parts-grid"></div>
                         <div id="pistol-part-detail" class="p-3.5 rounded-xl bg-blue-950/30 border border-blue-500/30 text-xs text-slate-200 font-mono">
@@ -489,10 +660,10 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div class="inline-flex items-center gap-2 text-xs font-mono text-amber-400 mb-1">
-                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                        <i class="fa-solid fa-bolt anim-trophy"></i>
                         <span>TRYB AKTYWNEGO PRZYPOMINANIA • STWORZONE PRZEZ TD DLA FUNKCJONARIUSZY</span>
                     </div>
-                    <h3 class="text-xl font-extrabold text-white">Fiszki Treningowe 3D (30 Kart z Kompendium & TCCC)</h3>
+                    <h3 class="text-xl font-extrabold text-white">Fiszki Treningowe 3D (Kompendium LEA & TCCC)</h3>
                     <p class="text-xs sm:text-sm text-slate-400">Kliknij w kartę (lub naciśnij <code>Spację</code>), aby ją odwrócić. Strzałki zmieniają kartę.</p>
                 </div>
 
@@ -501,7 +672,7 @@
 
             <div class="max-w-2xl mx-auto space-y-5">
                 <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
-                    <span id="fc-counter">Fiszka 1 z 30</span>
+                    <span id="fc-counter">Fiszka 1 z 22</span>
                     <span id="fc-mastered-badge" class="text-emerald-400 font-bold">Opanowane w tej sesji: 0</span>
                 </div>
 
@@ -510,12 +681,12 @@
                         <div class="flip-card-front glass-card rounded-3xl p-8 flex flex-col justify-between border-2 border-blue-500/40 shadow-2xl">
                             <div class="flex items-center justify-between">
                                 <span id="fc-cat-tag" class="px-3 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold">KATEGORIA</span>
-                                <span class="text-xs font-mono text-slate-400 flex items-center gap-1">
-                                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> Odwróć (Spacja)
+                                <span class="text-xs font-mono text-slate-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-rotate"></i> Odwróć (Spacja)
                                 </span>
                             </div>
                             <div class="my-auto text-center px-2">
-                                <p class="text-xs uppercase font-mono tracking-widest text-slate-400 mb-2">Zagadnienie do opanowania:</p>
+                                <p class="text-xs uppercase font-mono tracking-widest text-slate-400 mb-2">Zagadnienie z Terminalu TD-NET:</p>
                                 <h4 id="fc-front-text" class="text-xl sm:text-2xl font-extrabold text-white leading-snug">...</h4>
                             </div>
                             <div class="text-center text-[11px] font-mono text-slate-500">
@@ -540,20 +711,20 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <button onclick="prevCard()" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Poprzednia
+                        <i class="fa-solid fa-arrow-left"></i> Poprzednia
                     </button>
 
                     <div class="flex items-center gap-2">
                         <button onclick="shuffleCards()" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300 flex items-center gap-1.5 transition-all">
-                            <i data-lucide="shuffle" class="w-4 h-4 text-cyan-400"></i> Losuj
+                            <i class="fa-solid fa-shuffle text-cyan-400"></i> Losuj
                         </button>
                         <button onclick="markCardMastered(event)" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-950/60 flex items-center gap-2 transition-all">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i> Umiem to! (+15 XP)
+                            <i class="fa-solid fa-circle-check"></i> Umiem to! (+15 XP)
                         </button>
                     </div>
 
                     <button onclick="nextCard()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all">
-                        Następna <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        Następna <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -565,15 +736,15 @@
         <section id="view-compendium" class="hidden space-y-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="book-marked" class="w-5 h-5 text-blue-400"></i>
-                        Pełna Baza Wiedzy Kompendium LEA (Rozdziały 1 – 15)
+                    <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-book-open-reader text-blue-400 anim-float"></i>
+                        <span>Pełna Baza Wiedzy Kompendium LEA (Rozdziały 1 – 15)</span>
                     </h3>
                     <p class="text-xs sm:text-sm text-slate-400">Wszystkie rozdziały, paragrafy oraz pełna tabela hierarchii Chain of Command LSPD i BCSO.</p>
                 </div>
                 <div class="relative w-full md:w-72">
-                    <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                    <input type="text" id="chapter-search" oninput="renderCompendiumChapters()" placeholder="Szukaj w rozdziałach..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+                    <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"></i>
+                    <input type="text" id="chapter-search" oninput="renderCompendiumChapters()" placeholder="Szukaj w rozdziałach..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
                 </div>
             </div>
 
@@ -581,8 +752,8 @@
             <div class="glass-card rounded-3xl p-6 space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
                     <h4 class="text-base font-extrabold text-white flex items-center gap-2">
-                        <i data-lucide="git-merge" class="w-5 h-5 text-amber-400"></i>
-                        Porównanie Hierarchii Chain of Command: LSPD vs BCSO (Rozdział 1 — Stopnie 1–15)
+                        <i class="fa-solid fa-sitemap text-amber-400"></i>
+                        <span>Porównanie Hierarchii Chain of Command: LSPD vs BCSO (Rozdział 1 — Stopnie 1–15)</span>
                     </h4>
                     <span class="text-xs font-mono text-slate-400">Obowiązuje zasada drogi służbowej</span>
                 </div>
@@ -612,7 +783,9 @@
             <div class="glass-card rounded-3xl p-6 sm:p-7 border-l-4 border-l-rose-500 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-2">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-md bg-rose-500/15 border border-rose-500/30 text-rose-400 font-mono text-xs font-bold uppercase">Tactical Combat Casualty Care</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-rose-500/15 border border-rose-500/30 text-rose-400 font-mono text-xs font-bold uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-heart-pulse anim-heartbeat"></i> Tactical Combat Casualty Care
+                        </span>
                         <span class="text-xs font-mono text-slate-400">LSPD Basic Medical Officer Handbook</span>
                     </div>
                     <h3 class="text-xl sm:text-2xl font-extrabold text-white">Podręcznik Medyczny Funkcjonariusza LSPD (Moduły 01 – 08)</h3>
@@ -632,8 +805,8 @@
                 <div class="glass-card rounded-2xl p-6 space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <h4 class="text-base font-extrabold text-white flex items-center gap-2">
-                            <i data-lucide="shield-alert" class="w-5 h-5 text-rose-400"></i>
-                            02 — Trzy Fazy Działania w TCCC
+                            <i class="fa-solid fa-person-military-rifle text-rose-400"></i>
+                            <span>02 — Trzy Fazy Działania w TCCC</span>
                         </h4>
                         <span class="text-xs font-mono text-slate-400">CUF → TFC → EVAC</span>
                     </div>
@@ -674,8 +847,8 @@
                 <div class="glass-card rounded-2xl p-6 space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <h4 class="text-base font-extrabold text-white flex items-center gap-2">
-                            <i data-lucide="activity" class="w-5 h-5 text-cyan-400"></i>
-                            03 — Rapid Casualty Assessment (On Arrival)
+                            <i class="fa-solid fa-stethoscope text-cyan-400"></i>
+                            <span>03 — Rapid Casualty Assessment (On Arrival)</span>
                         </h4>
                         <span class="text-xs font-mono text-slate-400">5 Kroków Oceny</span>
                     </div>
@@ -689,8 +862,8 @@
 
                     <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/40 text-xs sm:text-sm space-y-2">
                         <div class="font-mono font-extrabold text-rose-400 flex items-center gap-2">
-                            <i data-lucide="heart-off" class="w-4 h-4"></i>
-                            BRAK TĘTNA / OZNAK ŻYCIA (TRAUMATIC ARREST):
+                            <i class="fa-solid fa-heart-crack anim-heartbeat"></i>
+                            <span>BRAK TĘTNA / OZNAK ŻYCIA (TRAUMATIC ARREST):</span>
                         </div>
                         <ol class="list-decimal list-inside text-slate-200 space-y-1">
                             <li>Sprawdź, czy występują oczywiście śmiertelne obrażenia.</li>
@@ -706,12 +879,10 @@
             <!-- SEKWENCJA M-A-R-C-H -->
             <div class="glass-card rounded-2xl p-6 space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
-                    <div>
-                        <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
-                            <i data-lucide="cross" class="w-5 h-5 text-rose-500"></i>
-                            04 — Algorytm M.A.R.C.H. (Pełna Specyfikacja Zabiegów)
-                        </h4>
-                    </div>
+                    <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-star-of-life text-rose-500 anim-spin-slow"></i>
+                        <span>04 — Algorytm M.A.R.C.H. (Pełna Specyfikacja Zabiegów)</span>
+                    </h4>
                     <span class="font-mono text-xs px-3 py-1 rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/30 font-bold">M → A → R → C → H</span>
                 </div>
 
@@ -793,9 +964,9 @@
              ========================================================= -->
         <section id="view-cheatsheet" class="hidden space-y-8">
             <div>
-                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                    <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i>
-                    Niezbędnik Kadeta — Kody, Wiązanki, Limity i Pojazdy
+                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2.5">
+                    <i class="fa-solid fa-satellite-dish text-cyan-400 anim-radar"></i>
+                    <span>Niezbędnik Kadeta — Kody, Wiązanki, Limity i Pojazdy</span>
                 </h3>
                 <p class="text-xs sm:text-sm text-slate-400">Kliknij w dowolną wiązankę, aby natychmiast skopiować ją do schowka.</p>
             </div>
@@ -803,8 +974,8 @@
             <div class="glass-card rounded-2xl p-6 space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 class="text-base font-bold text-white flex items-center gap-2">
-                        <i data-lucide="mic" class="w-4 h-4 text-blue-400"></i>
-                        Obowiązkowe Wiązanki Radiowe, Megafon i EMS Handoff
+                        <i class="fa-solid fa-microphone-lines text-blue-400"></i>
+                        <span>Obowiązkowe Wiązanki Radiowe, Megafon i EMS Handoff</span>
                     </h4>
                     <span class="text-xs font-mono text-cyan-400">Stworzone przez TD dla funkcjonariuszy</span>
                 </div>
@@ -814,8 +985,8 @@
             <div class="glass-card rounded-2xl p-6 space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                     <h4 class="text-base font-bold text-white flex items-center gap-2">
-                        <i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i>
-                        Tabela Kodów Radiowych, Statusów i Pojęć (Rozdział 5)
+                        <i class="fa-solid fa-tower-broadcast text-emerald-400 anim-radar"></i>
+                        <span>Tabela Kodów Radiowych, Statusów i Pojęć (Rozdział 5)</span>
                     </h4>
                     <input type="text" id="radio-search" oninput="renderRadioCodes()" placeholder="Szukaj kodu (np. 10-13, Status 7, Kod 0)..." class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-64">
                 </div>
@@ -829,9 +1000,9 @@
         <section id="view-trainings" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="award" class="w-5 h-5 text-blue-400"></i>
-                        Centrum Szkoleń Specjalistycznych i Funkcyjnych
+                    <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-award text-blue-400 anim-trophy"></i>
+                        <span>Centrum Szkoleń Specjalistycznych i Funkcyjnych (TD-NET)</span>
                     </h3>
                     <p class="text-xs sm:text-sm text-slate-400">Wybierz moduł szkoleniowy dla jednostek specjalnych oraz stanowisk nadzoru.</p>
                 </div>
@@ -848,12 +1019,12 @@
     </main>
 
     <!-- =========================================================================
-         MODAL 1: COMMAND PALETTE (CTRL + K)
+         MODAL: COMMAND PALETTE (CTRL + K)
          ========================================================================= -->
     <div id="cmd-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-start justify-center pt-20 px-4">
         <div class="glass-card w-full max-w-2xl rounded-3xl border border-blue-500/40 overflow-hidden shadow-2xl">
             <div class="p-4 border-b border-slate-800 flex items-center gap-3">
-                <i data-lucide="search" class="w-5 h-5 text-cyan-400"></i>
+                <i class="fa-solid fa-magnifying-glass text-cyan-400"></i>
                 <input type="text" id="cmd-input" oninput="renderCommandResults()" placeholder="Wpisz szukane hasło (np. 10-13B, kaucja, CAT, EDWARD, BLOS)..." class="w-full bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none font-mono">
                 <button onclick="closeCommandPalette()" class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">ESC</button>
             </div>
@@ -862,28 +1033,28 @@
     </div>
 
     <!-- =========================================================================
-         MODAL 2: KARTA GOTOWOŚCI KADETA (CERTYFIKAT TD)
+         MODAL: KARTA GOTOWOŚCI KADETA (CERTYFIKAT TD-NET)
          ========================================================================= -->
     <div id="cert-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
         <div class="glass-card w-full max-w-lg rounded-3xl border-2 border-cyan-500/50 p-6 sm:p-8 text-center space-y-5 relative">
             <button onclick="closeCertificateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full td-neon-badge text-xs font-mono text-cyan-300 font-bold">
-                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <i class="fa-solid fa-shield-halved"></i>
                 Stworzone przez TD dla funkcjonariuszy
             </div>
-            <h3 class="text-2xl font-black text-white">Karta Przygotowania Kadeta</h3>
+            <h3 class="text-2xl font-black text-white">Karta Gotowości Kadeta (TD-NET)</h3>
             <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3 text-left font-mono text-xs">
                 <div class="flex justify-between"><span class="text-slate-400">Kadet / Odznaka:</span> <strong id="cert-name" class="text-white">Nie podano</strong></div>
                 <div class="flex justify-between"><span class="text-slate-400">Opanowanie sylabusu:</span> <strong id="cert-pct" class="text-emerald-400">0%</strong></div>
                 <div class="flex justify-between"><span class="text-slate-400">Zdobyte doświadczenie:</span> <strong id="cert-xp" class="text-cyan-400">0 XP</strong></div>
                 <div class="flex justify-between"><span class="text-slate-400">Ukończone działy (7):</span> <strong id="cert-modules" class="text-amber-400">0 / 7</strong></div>
-                <div class="flex justify-between border-t border-slate-800 pt-2"><span class="text-slate-400">Kod weryfikacyjny TD:</span> <strong id="cert-hash" class="text-blue-400">TD-0000</strong></div>
+                <div class="flex justify-between border-t border-slate-800 pt-2"><span class="text-slate-400">Kod autoryzacji TD-NET:</span> <strong id="cert-hash" class="text-blue-400">TD-0000</strong></div>
             </div>
-            <p class="text-xs text-slate-400">Możesz zrobić zrzut ekranu tej karty lub skopiować podsumowanie tekstowe i wkleić je swojemu egzaminatorowi FTO / TD na Discordzie.</p>
+            <p class="text-xs text-slate-400">Możesz zrobić zrzut ekranu tej karty lub skopiować raport tekstowy dla egzaminatora FTO / Training Division.</p>
             <button onclick="copyCertificateSummary()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg">
-                <i data-lucide="copy" class="w-4 h-4"></i> Skopiuj Raport Gotowości na Discorda
+                <i class="fa-solid fa-copy"></i> Skopiuj Raport Gotowości
             </button>
         </div>
     </div>
@@ -892,8 +1063,8 @@
     <footer class="border-t border-slate-900 bg-slate-950/95 py-6 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
             <div class="flex items-center gap-2">
-                <i data-lucide="shield" class="w-4 h-4 text-blue-500"></i>
-                <span>Los Santos Police Department & Blaine County Sheriff's Office — Kompendium Wiedzy LEA & TCCC</span>
+                <i class="fa-solid fa-building-shield text-blue-500"></i>
+                <span>TD-NET // System A.T.L.A.S. — LSPD & BCSO Intranet Szkoleniowy (Kontakt: Qylo / Oley SASA)</span>
             </div>
             <div class="font-mono text-cyan-400 font-bold">
                 Stworzone przez TD dla funkcjonariuszy • "To Protect and To Serve"
@@ -902,30 +1073,97 @@
     </footer>
 
     <!-- TOAST -->
-    <div id="copy-toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-2xl font-mono text-xs font-extrabold flex items-center gap-2 border border-emerald-400">
-        <i data-lucide="sparkles" class="w-4 h-4"></i>
+    <div id="copy-toast" class="fixed bottom-5 left-5 z-50 hidden bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-2xl font-mono text-xs font-extrabold flex items-center gap-2 border border-emerald-400">
+        <i class="fa-solid fa-circle-check"></i>
         <span id="toast-text">Skopiowano do schowka!</span>
     </div>
 
     <script>
         // =========================================================================
         // ★ KONFIGURACJA ZARZĄDU TRAINING DIVISION (ŁATWA EDYCJA) ★
-        // Tutaj możesz wkleić link do własnego logo lub odblokować szkolenia!
+        // Kiedy robisz nowy update na GitHubie, zmień `appVersion` np. na "2.6"
+        // oraz dopisz punkty w `updateChangelog` — okienko wyskoczy każdemu kadetowi!
         // =========================================================================
         const TD_CONFIG = {
+            appVersion: "2.5",
+            alwaysShowUpdateOnLoad: true, // Ustawione na true, aby przy odświeżeniu/wejściu komunikat o aktualizacji był zawsze widoczny (możesz zmienić na false, by zapisywał w pamięci przeglądarki)
+            updateTitle: "Aktualizacja Terminalu TD-NET (System A.T.L.A.S.)",
+            updateChangelog: [
+                "Wdrożono oficjalny system <strong>TD-NET // A.T.L.A.S.</strong> do użytku IC dla kadetów oraz funkcjonariuszy LSPD i BCSO.",
+                "Dodano pełny moduł medyczny <strong>TCCC (LSPD Basic Medical Officer Handbook)</strong> wraz z algorytmem <strong>M.A.R.C.H.</strong> i symulatorem klinicznym.",
+                "Dodano rozwijane ściągi przy każdym podpunkcie w 7 działach egzaminu oficerskiego (Teoria, NTS, FTS, Status 7, 10-80, 10-80 patyki, Pierwsza pomoc).",
+                "Dodano 4 interaktywne symulatory praktyczne (układanka FTS, kalkulator kaucji/konwoju, schemat pistoletu oraz trenażer TCCC).",
+                "Wprowadzono nowe animacje ikon taktycznych oraz system zgłoszeń technicznych do <strong>Qylo (Oley SASA)</strong>."
+            ],
             brandingText: "Stworzone przez TD dla funkcjonariuszy",
-            customLogoUrl: "", // Np. "https://twojadomena.pl/logo-td.png" (zostaw puste dla ikony tarczy)
+            customLogoUrl: "", // Np. "logo.png"
             specializedTrainings: [
-                { code: "SEU", name: "Speed Enforcement Unit", status: "Coming soon...", req: "Min. Oficer III (Rozdział 1)", desc: "Szkolenie umożliwiające prowadzenie jednostek pościgowych EDWARD podczas napadów, pościgów i patroli za zgodą PWC.", customContent: "" },
-                { code: "OCEAN", name: "Ocean Patrol Unit", status: "Coming soon...", req: "Autoryzacja TD / PWC", desc: "Szkolenie motorowodne przygotowujące do operowania jednostkami morskimi typu OCEAN na wodach stanu San Andreas.", customContent: "" },
-                { code: "MERRY", name: "Merry Enforcement / ATV", status: "Coming soon...", req: "Patrole wyłącznie 2-osobowe (Rozdział 6.2)", desc: "Szkolenie taktyki jazdy jednośladem policyjnym oraz pojazdami ATV (Nagasaki BF400, NAG, Shitzu Bati).", customContent: "" },
-                { code: "ASU", name: "Air Support Unit", status: "Coming soon...", req: "Min. Oficer III + Psychotesty (Rozdział 1)", desc: "Szkolenie pilotażu śmigłowca policyjnego EAGLE (Maverick) jako jednostki U0 wspierającej akcje z powietrza.", customContent: "" },
-                { code: "PWC-APWC", name: "Patrol Watch Commander & Assistant", status: "Coming soon...", req: "PWC: min. Sierżant I | APWC: min. Oficer III (Rozdział 4)", desc: "Szkolenie z zarządzania jednostkami patrolowymi na służbie, przydzielania patroli i autoryzacji jednostek.", customContent: "" },
-                { code: "SV", name: "Supervisor", status: "Coming soon...", req: "Min. Oficer III wyznaczany przez PWC (Rozdział 4)", desc: "Szkolenie z dowodzenia akcjami wysokiego ryzyka, pościgami, procedurą FTS oraz organizacją konwojów.", customContent: "" },
-                { code: "NEGO", name: "Negotiator License (NL I / NL II)", status: "Coming soon...", req: "NL I: od Oficer I | NL II: od Oficer II + 10 negocjacji (Rozdział 1)", desc: "Szkolenie z prowadzenia negocjacji podczas napadów rabunkowych, porwań dla okupu oraz prób samobójczych.", customContent: "" },
-                { code: "RTO-HRO", name: "Radio & Helicopter Radio Operator", status: "Coming soon...", req: "Znajomość Rozdziału 5 i wiązanek kodowych", desc: "Szkolenie z zaawansowanej komunikacji radiowej, prowadzenia korespondencji pościgowej i meldunków z pokładu EAGLE.", customContent: "" }
+                { code: "SEU", faIcon: "fa-gauge-high", name: "Speed Enforcement Unit", status: "Coming soon...", req: "Min. Oficer III (Rozdział 1)", desc: "Szkolenie umożliwiające prowadzenie jednostek pościgowych EDWARD podczas napadów, pościgów i patroli za zgodą PWC.", customContent: "" },
+                { code: "OCEAN", faIcon: "fa-anchor", name: "Ocean Patrol Unit", status: "Coming soon...", req: "Autoryzacja TD / PWC", desc: "Szkolenie motorowodne przygotowujące do operowania jednostkami morskimi typu OCEAN na wodach stanu San Andreas.", customContent: "" },
+                { code: "MERRY", faIcon: "fa-motorcycle", name: "Merry Enforcement / ATV", status: "Coming soon...", req: "Patrole wyłącznie 2-osobowe (Rozdział 6.2)", desc: "Szkolenie taktyki jazdy jednośladem policyjnym oraz pojazdami ATV (Nagasaki BF400, NAG, Shitzu Bati).", customContent: "" },
+                { code: "ASU", faIcon: "fa-helicopter", name: "Air Support Unit", status: "Coming soon...", req: "Min. Oficer III + Psychotesty (Rozdział 1)", desc: "Szkolenie pilotażu śmigłowca policyjnego EAGLE (Maverick) jako jednostki U0 wspierającej akcje z powietrza.", customContent: "" },
+                { code: "PWC-APWC", faIcon: "fa-chess-king", name: "Patrol Watch Commander & Assistant", status: "Coming soon...", req: "PWC: min. Sierżant I | APWC: min. Oficer III (Rozdział 4)", desc: "Szkolenie z zarządzania jednostkami patrolowymi na służbie, przydzielania patroli i autoryzacji jednostek.", customContent: "" },
+                { code: "SV", faIcon: "fa-user-shield", name: "Supervisor", status: "Coming soon...", req: "Min. Oficer III wyznaczany przez PWC (Rozdział 4)", desc: "Szkolenie z dowodzenia akcjami wysokiego ryzyka, pościgami, procedurą FTS oraz organizacją konwojów.", customContent: "" },
+                { code: "NEGO", faIcon: "fa-Handshake-angle", name: "Negotiator License (NL I / NL II)", status: "Coming soon...", req: "NL I: od Oficer I | NL II: od Oficer II + 10 negocjacji (Rozdział 1)", desc: "Szkolenie z prowadzenia negocjacji podczas napadów rabunkowych, porwań dla okupu oraz prób samobójczych.", customContent: "" },
+                { code: "RTO-HRO", faIcon: "fa-tower-cell", name: "Radio & Helicopter Radio Operator", status: "Coming soon...", req: "Znajomość Rozdziału 5 i wiązanek kodowych", desc: "Szkolenie z zaawansowanej komunikacji radiowej, prowadzenia korespondencji pościgowej i meldunków z pokładu EAGLE.", customContent: "" }
             ]
         };
+
+        // =========================================================================
+        // OBSŁUGA OKNA AKTUALIZACJI ORAZ POWIADOMIENIA CO 1,5 MINUTY (90 SEKUND)
+        // =========================================================================
+        function initUpdateModal() {
+            document.getElementById('update-modal-title').textContent = TD_CONFIG.updateTitle;
+            document.getElementById('update-modal-version').textContent = `Wersja systemu: v${TD_CONFIG.appVersion} • ${TD_CONFIG.brandingText}`;
+            document.getElementById('update-modal-list').innerHTML = TD_CONFIG.updateChangelog.map(item => `
+                <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-angle-right text-cyan-400 mt-1"></i>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+
+            const seenVer = localStorage.getItem('td_net_seen_version');
+            if (TD_CONFIG.alwaysShowUpdateOnLoad || seenVer !== TD_CONFIG.appVersion) {
+                openUpdateModal();
+            }
+        }
+
+        function openUpdateModal() {
+            document.getElementById('update-modal').classList.remove('hidden');
+        }
+
+        function dismissUpdateModal() {
+            playSound('levelup');
+            localStorage.setItem('td_net_seen_version', TD_CONFIG.appVersion);
+            document.getElementById('update-modal').classList.add('hidden');
+        }
+
+        // Powiadomienie o zgłaszaniu błędów do Qylo (Oley SASA) co 1,5 minuty (90 000 ms)
+        let bugToastTimeout = null;
+        function showBugToast() {
+            const toast = document.getElementById('bug-report-toast');
+            toast.classList.remove('hidden');
+            playSound('flip');
+            clearTimeout(bugToastTimeout);
+            // Znika automatycznie po 18 sekundach (lub po kliknięciu X), po czym znów pojawia się za 1,5 minuty
+            bugToastTimeout = setTimeout(() => {
+                hideBugToast();
+            }, 18000);
+        }
+
+        function hideBugToast() {
+            document.getElementById('bug-report-toast').classList.add('hidden');
+        }
+
+        function startBugReportCycle() {
+            // Pierwsze mignięcie po 15 sekundach, a następnie cyklicznie co dokładnie 1,5 minuty (90 000 ms)
+            setTimeout(() => {
+                showBugToast();
+                setInterval(() => {
+                    showBugToast();
+                }, 90000);
+            }, 15000);
+        }
 
         // =========================================================================
         // WEB AUDIO API SYNTHESIZER
@@ -1028,7 +1266,7 @@
         }
 
         // =========================================================================
-        // 1. DANE: 7 DZIAŁÓW EGZAMINU Z ROZWIJANYMI ŚCIĄGAMI (DEEP-DIVE DRAWERS)
+        // 1. DANE: 7 DZIAŁÓW EGZAMINU Z IKONAMI FONTAWESOME I ANIMACJAMI
         // =========================================================================
         const examModules = [
             {
@@ -1037,7 +1275,8 @@
                 shortName: "Teoria",
                 title: "Teoria",
                 subtitle: "Kompletna wiedza teoretyczna z Rozdziałów 1–6, 9 oraz 11–15",
-                icon: "book-open",
+                faIcon: "fa-solid fa-book-atlas",
+                animClass: "anim-float",
                 color: "blue",
                 items: [
                     { id: "t1", ref: "Rozdział 1 (Jednostki)", text: "Jednostki Wewnętrzne: zadania, stopnie wewnętrzne oraz dokładne kryteria rekrutacji do T.D, S.W.A.T, A.I.A.D oraz C.I.D.", details: "• T.D (Training Division): szkolenia i pomoc w akademii (w porozumieniu z HC). Wymogi: znajomość kompendium, nienaganna postawa, powołanie przez Commandera TD.\n• S.W.A.T: akcje wysokiego ryzyka (Barricaded Suspects, Hostage, High-Risk Arrests). 4 stopnie (SWAT CO, Team Sergeant, Element Leader, SWAT Officer). Wymogi: min. Police Officer II, aplikacja, selekcja, szkolenie SWAT (oraz L.W).\n• A.I.A.D: kontrola FP i wyposażenia, raporty do Commandera AIAD. Tożsamość każdego inspektora jest JAWNA! 6 stopni (od Probie Inspektor do Chief Of AIAD). Wymogi: min. Oficer III, aplikacja lub powołanie.\n• C.I.D: rozbijanie gangów, narkotyków i handlu bronią. 7 stopni (Detective I–III, Senior, Supervisor of Intelligence, Superintendent, Chief Superintendent). Wymogi: min. Oficer III+I oraz powołanie przez Commandera CID." },
@@ -1057,7 +1296,8 @@
                 shortName: "NTS",
                 title: "NTS (Normal Traffic Stop)",
                 subtitle: "Procedura zwykłego zatrzymania drogowego (Rozdział 7)",
-                icon: "car",
+                faIcon: "fa-solid fa-car-side",
+                animClass: "anim-float",
                 color: "emerald",
                 items: [
                     { id: "nts1", ref: "Rozdział 5 i 7", text: "Włączenie sygnałów świetlnych i dźwiękowych, nakazanie zjazdu na pobocze (poza czerwoną linią) oraz meldunek o Kodzie 6 przez RTO.", details: "• Pojazdy (zarówno zatrzymanego, jak i radiowóz) NIE mogą znajdować się na wyznaczonej czerwonej linii przy krawężniku.\n• Pasażer (RTO) nadaje na radiu komunikat o rozpoczęciu Kodu 6 na danym 10-20." },
@@ -1072,7 +1312,8 @@
                 shortName: "FTS",
                 title: "FTS (Felony Traffic Stop)",
                 subtitle: "Zatrzymanie wysokiego ryzyka krok po kroku (Rozdział 7, pkt 1–8)",
-                icon: "shield-alert",
+                faIcon: "fa-solid fa-person-rifle",
+                animClass: "anim-siren",
                 color: "amber",
                 items: [
                     { id: "fts1", ref: "Rozdział 7 (Krok 1)", text: "Rozpoczęcie jak Kod 6, nakaz pozostania w pojeździe oraz dokładny meldunek RTO wzywający wsparcie (10-21) na FTS.", details: "• Obowiązkowa formułka RTO: '[Numer odznaki + ilość osób w radiowozie] przeprowadzamy kod 6 do [model pojazdu] nasze 10-20 to [lokalizacja] będziemy przeprowadzać FTS 10-21'." },
@@ -1089,7 +1330,8 @@
                 shortName: "Status 7",
                 title: "Status 7",
                 subtitle: "Transport, Prawa Mirandy, procedury na celach oraz Kaucja (Rozdział 10)",
-                icon: "lock",
+                faIcon: "fa-solid fa-handcuffs",
+                animClass: "anim-float",
                 color: "purple",
                 items: [
                     { id: "s7_1", ref: "Rozdział 10 (10.4–10.8)", text: "Transport zatrzymanego: sprawdzenie zakucia, zapięcie pasów, meldunek 10-5 na komendę oraz wyrecytowanie 4 punktów Prawa Mirandy (czytane max 2 razy).", details: "• Meldunek: '[Odznaka + ilość osób] 10-5 na komendę [nazwa komendy] z zatrzymanym'.\n• Miranda (przed zarzutami!): A) Prawo zachować milczenie, B) Wszystko co powie może zostać użyte w sądzie, C) Prawo do adwokata przed i w trakcie czynności, D) Adwokat nieodpłatnie ze środków publicznych + pytanie 'Czy zrozumiał Pan/ni swoje prawa?' (max 2 razy)." },
@@ -1106,7 +1348,8 @@
                 shortName: "10-80",
                 title: "10-80 (Pościg pojazdami)",
                 subtitle: "Meldunki pościgowe, szyk U1–U3/U0, kody pościgowe i manewry (Rozdział 8)",
-                icon: "siren",
+                faIcon: "fa-solid fa-land-mine-on",
+                animClass: "anim-siren",
                 color: "rose",
                 items: [
                     { id: "p1", ref: "Rozdział 8 (8.1–8.5)", text: "Meldunek rozpoczęcia pościgu przez RTO, przejście na kanał taktyczny oraz trzymanie szyku U1, U2, U3 i U0 (zakaz wyprzedzania).", details: "• Formułka: '[Odznaka + ilość osób] rozpoczynamy 10-80 za [model pojazdu] nasze 10-20 to [lokalizacja] [10-21/10-22]'.\n• Przejmowanie danego U (np. z powodu uszkodzeń lub tankowania) wyznacza osoba znajdująca się na tym stanowisku (8.5)." },
@@ -1121,7 +1364,8 @@
                 shortName: "10-80 Patyki",
                 title: "10-80 patyki (Pościg pieszy)",
                 subtitle: "Ucieczka piesza, procedura Tasera i warunki użycia broni palnej (Rozdział 3 i 13)",
-                icon: "footprints",
+                faIcon: "fa-solid fa-person-running",
+                animClass: "anim-float",
                 color: "cyan",
                 items: [
                     { id: "pat1", ref: "Rozdział 3.2 i 5", text: "Komunikacja podczas ucieczki pieszej (podawanie 10-20 i kierunku ucieczki) oraz przestrzeganie zasady 3.2 — nigdy nie zostawiaj samego partnera.", details: "• Podczas pościgu pieszego partnerzy trzymają kontakt wzrokowy i radiowy." },
@@ -1136,7 +1380,8 @@
                 shortName: "TCCC / Medycyna",
                 title: "Pierwsza pomoc (Procedury LEA + TCCC Handbook)",
                 subtitle: "Zabezpieczenie po strzelaninie (Rozdział 10) oraz pełny protokół TCCC / MARCH (Moduły 01–08)",
-                icon: "heart-pulse",
+                faIcon: "fa-solid fa-heart-pulse",
+                animClass: "anim-heartbeat",
                 color: "red",
                 items: [
                     { id: "med1", ref: "Rozdział 10 (Strzelanina)", text: "Bezpieczeństwo przed opatrzeniem: podejście do rannego, natychmiastowe zabranie lub odkopanie broni oraz wstępne przeszukanie.", details: "• Ważne: jeśli odkopujesz broń leżącą przy obywatelu, nie zapomnij zabrać jej i zabezpieczyć po zakończeniu opatrywania!\n• Jeżeli ranny wymaga natychmiastowej pomocy EMS, odpuszczamy czynności procesowe i wykonujemy je dopiero po pomocy medyka." },
@@ -1254,7 +1499,7 @@
             { cat: "TCCC Medycyna", q: "Zasady zakładania stazy taktycznej CAT (Tourniquet) w protokole MARCH", a: "Czas: w ciągu 1 minuty! Miejsce: 5–7 cm (2–3 cale) nad raną kończyny — NIGDY bezpośrednio na stawie i NIGDY na szyi! Jeśli nie znasz źródła krwawienia: 'High and Tight'. Jeśli 1 staza nie wystarcza -> załóż drugą powyżej.", ref: "TCCC Moduł 04.1" },
             { cat: "TCCC Medycyna", q: "Procedura Wound Packing (Pakowanie rany) krok po kroku", a: "Stosowane w pachwinie, pasze i barku (ZAKAZ pakowania klatki piersiowej!).\n1. Wypełnij ranę gazą hemostatyczną, zostawiając 4–5 cm nad powierzchnią.\n2. Uciskaj mocno bezpośrednio przez min. 3 minuty.\n3. Załóż bandaż uciskowy.", ref: "TCCC Moduł 04.1" },
             { cat: "TCCC Medycyna", q: "Udrożnienie dróg oddechowych (Airway) przy podejrzeniu urazu kręgosłupa", a: "Usuń tylko widoczne przeszkody (zakaz ślepego przeszukiwania jamy ustnej palcem!). Przy podejrzeniu urazu kręgosłupa stosuj WYŁĄCZNIE manewr Jaw Thrust (wysunięcie żuchwy — bez odchylania głowy Head Tilt).", ref: "TCCC Moduł 04.2" },
-            { cat: "TCCC Medycyna", q: "Opatrywanie ran penetrujących klatki piersiowej i zabieg 'Burping'", a: "Na otwartą ranę klatki zakładamy opatrunek okluzyjny Chest Seal (zakaz pakowania!). Jeśli narasta duszność (podejrzenie odmy prężnej) -> wykonaj 'Burping': na krótko unieś krawędź Chest Seala, wypuść powietrze i ponownie uszczelnij.", ref: "TCCC Moduł 04.3" },
+            { cat: "TCCC Medycyna", q: "Opatrywanie ran penetrujących klatki piersiowej i zabieg 'Burping'", a: "Na otwartą rana klatki zakładamy opatrunek okluzyjny Chest Seal (zakaz pakowania!). Jeśli narasta duszność (podejrzenie odmy prężnej) -> wykonaj 'Burping': na krótko unieś krawędź Chest Seala, wypuść powietrze i ponownie uszczelnij.", ref: "TCCC Moduł 04.3" },
             { cat: "TCCC Medycyna", q: "6 elementów wchodzących w skład standardowego IFAK / OFAK oraz raport EMS Handoff", a: "IFAK (6): 1x CAT Gen 7 TQ, 1x Modular Bandage, 1x Beacon Chest Seal, 1x Trauma Shears, 1x Surgical Tape, 1x Nitrile Gloves.\nEMS Handoff (5): Location, Condition, Injury, Treatment, Change.", ref: "TCCC Moduł 07 i 08" }
         ];
 
@@ -1392,16 +1637,16 @@
         // =========================================================================
         // STATE & PERSISTENCE
         // =========================================================================
-        let completedItems = JSON.parse(localStorage.getItem('lea_td_cadet_progress_v5') || '{}');
+        let completedItems = JSON.parse(localStorage.getItem('lea_td_cadet_progress_v6') || '{}');
         let expandedDetails = {};
         let allDetailsExpanded = false;
-        let bonusXP = parseInt(localStorage.getItem('lea_td_bonus_xp_v5') || '0', 10);
+        let bonusXP = parseInt(localStorage.getItem('lea_td_bonus_xp_v6') || '0', 10);
         let hideCompleted = false;
         let activeTrainingCode = "SEU";
 
         function saveCadetName() {
             const val = document.getElementById('cadet-name-input').value;
-            localStorage.setItem('lea_td_cadet_name_v5', val);
+            localStorage.setItem('lea_td_cadet_name_v6', val);
         }
 
         function switchTab(tabId) {
@@ -1431,7 +1676,7 @@
             examModules.flatMap(m => m.items).forEach(i => {
                 expandedDetails[i.id] = allDetailsExpanded;
             });
-            document.getElementById('expand-all-btn').textContent = allDetailsExpanded ? 'Zwiń wszystkie ściągi' : 'Rozwiń wszystkie ściągi';
+            document.getElementById('expand-all-label').textContent = allDetailsExpanded ? 'Zwiń wszystkie ściągi' : 'Rozwiń wszystkie ściągi';
             playSound('flip');
             renderExamModules();
         }
@@ -1453,7 +1698,7 @@
                 const isComplete = done === m.items.length;
                 return `
                     <a href="#${m.id}" onclick="switchTab('exam')" class="px-3 py-1.5 rounded-xl font-mono text-xs flex items-center gap-2 border transition-all ${isComplete ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-lg shadow-emerald-950/50 font-bold' : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:border-slate-700'}">
-                        <i data-lucide="${isComplete ? 'award' : m.icon}" class="w-3.5 h-3.5 ${isComplete ? 'text-amber-400' : ''}"></i>
+                        <i class="${isComplete ? 'fa-solid fa-medal text-amber-400 anim-trophy' : `${m.faIcon} ${m.animClass}`}"></i>
                         <span>${m.shortName}</span>
                         <span class="text-[10px] px-1.5 py-0.2 rounded ${isComplete ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-400'}">${done}/${m.items.length}</span>
                     </a>
@@ -1494,8 +1739,8 @@
                 card.innerHTML = `
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-3 border-b border-slate-800/90">
                         <div class="flex items-start sm:items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 ${allDone ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300' : colorClasses[mod.color]}">
-                                <i data-lucide="${allDone ? 'check-circle-2' : mod.icon}" class="w-6 h-6"></i>
+                            <div class="w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 text-xl ${allDone ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300' : colorClasses[mod.color]}">
+                                <i class="${allDone ? 'fa-solid fa-trophy text-amber-400 anim-trophy' : `${mod.faIcon} ${mod.animClass}`}"></i>
                             </div>
                             <div>
                                 <div class="flex flex-wrap items-center gap-2">
@@ -1533,8 +1778,8 @@
                                             <span class="${isChecked ? 'line-through text-slate-400' : 'text-slate-100'}">${item.text}</span>
                                         </div>
                                         <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2 shrink-0">
-                                            <button onclick="toggleDetailDrawer('${item.id}', event)" class="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-700 text-[11px] font-mono text-cyan-400 flex items-center gap-1 transition-all">
-                                                <i data-lucide="${isExpanded ? 'chevron-up' : 'book-open'}" class="w-3 h-3"></i>
+                                            <button onclick="toggleDetailDrawer('${item.id}', event)" class="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-700 text-[11px] font-mono text-cyan-400 flex items-center gap-1.5 transition-all">
+                                                <i class="fa-solid ${isExpanded ? 'fa-chevron-up' : 'fa-circle-info'}"></i>
                                                 <span>${isExpanded ? 'Zwiń' : 'Rozwiń ściągę'}</span>
                                             </button>
                                             <span class="text-[11px] font-mono font-bold ${isChecked ? 'text-emerald-400' : 'text-slate-500'}">
@@ -1544,7 +1789,7 @@
                                     </div>
                                     ${isExpanded ? `
                                         <div class="px-4 pb-4 pt-2 border-t border-slate-800/80 bg-slate-950/60 rounded-b-2xl text-xs text-slate-300 font-mono leading-relaxed whitespace-pre-line">
-                                            <div class="text-[10px] uppercase tracking-wider text-cyan-400 font-bold mb-1">Szczegółowe wytyczne z materiału źródłowego (Stworzone przez TD):</div>
+                                            <div class="text-[10px] uppercase tracking-wider text-cyan-400 font-bold mb-1">Szczegółowe wytyczne z Terminalu TD-NET (Stworzone przez TD):</div>
                                             ${item.details}
                                         </div>
                                     ` : ''}
@@ -1573,7 +1818,7 @@
                 spawnFloatingXP(event?.clientX, event?.clientY, "+25 XP");
             }
 
-            localStorage.setItem('lea_td_cadet_progress_v5', JSON.stringify(completedItems));
+            localStorage.setItem('lea_td_cadet_progress_v6', JSON.stringify(completedItems));
 
             const isNowModComplete = mod ? mod.items.every(i => completedItems[i.id]) : false;
             if (!wasModComplete && isNowModComplete) {
@@ -1593,7 +1838,7 @@
                 if (allDone) delete completedItems[i.id];
                 else completedItems[i.id] = true;
             });
-            localStorage.setItem('lea_td_cadet_progress_v5', JSON.stringify(completedItems));
+            localStorage.setItem('lea_td_cadet_progress_v6', JSON.stringify(completedItems));
             if (!allDone) {
                 playSound('levelup');
                 spawnFloatingXP(event?.clientX, event?.clientY, `+${mod.items.length * 25} XP`);
@@ -1614,7 +1859,7 @@
             document.getElementById('progress-pct-badge').textContent = `${pct}%`;
             document.getElementById('progress-count-text').textContent = `Zaliczono: ${done} / ${total} zagadnień`;
             document.getElementById('progress-bar').style.width = `${pct}%`;
-            document.getElementById('xp-counter-pill').textContent = `${totalXP} XP ZDOBYTE`;
+            document.getElementById('xp-text-val').textContent = `${totalXP} XP ZDOBYTE`;
 
             let rankTitle = "15. Recruit (Kadet)";
             let rankCode = "R15";
@@ -1632,8 +1877,8 @@
             if (confirm('Czy na pewno chcesz wyczyścić swój cały postęp nauki i punkty XP?')) {
                 completedItems = {};
                 bonusXP = 0;
-                localStorage.removeItem('lea_td_cadet_progress_v5');
-                localStorage.removeItem('lea_td_bonus_xp_v5');
+                localStorage.removeItem('lea_td_cadet_progress_v6');
+                localStorage.removeItem('lea_td_bonus_xp_v6');
                 renderExamModules();
             }
         }
@@ -1681,7 +1926,7 @@
                 playSound('check');
                 spawnFloatingXP(event?.clientX, event?.clientY, "+10 XP");
                 bonusXP += 10;
-                localStorage.setItem('lea_td_bonus_xp_v5', String(bonusXP));
+                localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
                 if (ftsSelected.length === 8) {
                     playSound('levelup');
                     fireConfetti();
@@ -1726,7 +1971,7 @@
             if (ans === sc.correct) {
                 tcccStreak++;
                 bonusXP += 20;
-                localStorage.setItem('lea_td_bonus_xp_v5', String(bonusXP));
+                localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
                 playSound('check');
                 spawnFloatingXP(event?.clientX, event?.clientY, "+20 XP");
                 document.getElementById('tccc-sim-score').textContent = `Seria trafień: ${tcccStreak}`;
@@ -1859,7 +2104,7 @@
         function markCardMastered(event) {
             masteredCount++;
             bonusXP += 15;
-            localStorage.setItem('lea_td_bonus_xp_v5', String(bonusXP));
+            localStorage.setItem('lea_td_bonus_xp_v6', String(bonusXP));
             document.getElementById('fc-mastered-badge').textContent = `Opanowane w tej sesji: ${masteredCount}`;
             playSound('check');
             spawnFloatingXP(event?.clientX, event?.clientY, "+15 XP");
@@ -1912,7 +2157,7 @@
             document.getElementById('cert-pct').textContent = `${pct}% (${done}/${allIds.length})`;
             document.getElementById('cert-xp').textContent = `${totalXP} XP`;
             document.getElementById('cert-modules').textContent = `${doneMods} / 7 działów`;
-            document.getElementById('cert-hash').textContent = `TD-${pct}-${totalXP}`;
+            document.getElementById('cert-hash').textContent = `TDNET-${pct}-${totalXP}`;
             document.getElementById('cert-modal').classList.remove('hidden');
         }
 
@@ -1926,9 +2171,9 @@
             const xp = document.getElementById('cert-xp').textContent;
             const mods = document.getElementById('cert-modules').textContent;
             const hash = document.getElementById('cert-hash').textContent;
-            const report = `**[TRAINING DIVISION — KARTA GOTOWOŚCI KADETA]**\n> **Kadet:** ${name}\n> **Postęp Sylabusu:** ${pct}\n> **Zaliczono Działów:** ${mods}\n> **Doświadczenie:** ${xp}\n> **Kod TD:** \`${hash}\`\n*Stworzone przez TD dla funkcjonariuszy*`;
+            const report = `**[TD-NET // SYSTEM A.T.L.A.S. — KARTA GOTOWOŚCI KADETA]**\n> **Kadet:** ${name}\n> **Postęp Sylabusu:** ${pct}\n> **Zaliczono Działów:** ${mods}\n> **Doświadczenie:** ${xp}\n> **Kod TD-NET:** \`${hash}\`\n*Stworzone przez TD dla funkcjonariuszy*`;
             navigator.clipboard.writeText(report);
-            showToast('Skopiowano raport gotowości na Discorda!');
+            showToast('Skopiowano raport gotowości!');
         }
 
         // Render Compendium, CoC Table, CheatSheet & Trainings
@@ -1973,7 +2218,7 @@
                 <div onclick="copyBind(${idx}, event)" class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-blue-500/50 cursor-pointer transition-all group">
                     <div class="flex items-center justify-between text-xs font-semibold text-slate-400 mb-1.5">
                         <span>${b.title}</span>
-                        <span class="text-blue-400 flex items-center gap-1 font-mono text-[11px]"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Kopiuj</span>
+                        <span class="text-blue-400 flex items-center gap-1 font-mono text-[11px]"><i class="fa-solid fa-copy"></i> Kopiuj</span>
                     </div>
                     <p class="font-mono text-xs text-slate-200 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">${b.code}</p>
                 </div>
@@ -2006,14 +2251,18 @@
         function renderTrainings() {
             const list = TD_CONFIG.specializedTrainings;
             document.getElementById('training-pills').innerHTML = list.map(t => `
-                <button onclick="selectTraining('${t.code}')" class="px-4 py-2 rounded-xl font-mono text-xs font-bold transition-all border ${t.code === activeTrainingCode ? 'bg-blue-600 text-white border-blue-400 shadow-lg' : 'bg-slate-900/90 text-slate-400 border-slate-800 hover:text-white'}">
-                    ${t.code}
+                <button onclick="selectTraining('${t.code}')" class="px-4 py-2 rounded-xl font-mono text-xs font-bold transition-all border flex items-center gap-2 ${t.code === activeTrainingCode ? 'bg-blue-600 text-white border-blue-400 shadow-lg' : 'bg-slate-900/90 text-slate-400 border-slate-800 hover:text-white'}">
+                    <i class="fa-solid ${t.faIcon}"></i>
+                    <span>${t.code}</span>
                 </button>
             `).join('');
 
             const activeObj = list.find(t => t.code === activeTrainingCode) || list[0];
             document.getElementById('training-detail-box').innerHTML = `
                 <div class="max-w-xl mx-auto py-4">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mx-auto mb-4 anim-float">
+                        <i class="fa-solid ${activeObj.faIcon}"></i>
+                    </div>
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold uppercase tracking-widest mb-4">
                         <span class="w-2 h-2 rounded-full bg-amber-400 pulse-dot"></span>
                         ${activeObj.status}
@@ -2024,7 +2273,7 @@
                         Wymogi z Kompendium: <strong>${activeObj.req}</strong>
                     </div>
                     <div class="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 text-xs font-mono text-slate-400">
-                        ${activeObj.customContent ? activeObj.customContent : `Szczegółowy konspekt szkoleniowy dla modułu <strong class="text-white">${activeObj.code}</strong> jest w trakcie opracowywania. <br><span class="text-cyan-400 font-bold">Stworzone przez TD dla funkcjonariuszy</span> • Status: <span class="text-amber-400 font-bold">${activeObj.status}</span>`}
+                        ${activeObj.customContent ? activeObj.customContent : `Szczegółowy konspekt szkoleniowy dla modułu <strong class="text-white">${activeObj.code}</strong> w systemie TD-NET jest w trakcie opracowywania. <br><span class="text-cyan-400 font-bold">Stworzone przez TD dla funkcjonariuszy</span> • Status: <span class="text-amber-400 font-bold">${activeObj.status}</span>`}
                     </div>
                 </div>
             `;
@@ -2032,7 +2281,9 @@
             document.getElementById('trainings-grid').innerHTML = list.map(t => `
                 <div onclick="selectTraining('${t.code}')" class="glass-card glass-card-hover rounded-2xl p-4 cursor-pointer border ${t.code === activeTrainingCode ? 'border-blue-500 bg-blue-950/20' : 'border-slate-800'}">
                     <div class="flex items-center justify-between mb-2.5">
-                        <span class="font-mono text-sm font-extrabold text-white px-2.5 py-0.5 rounded-lg bg-slate-900 border border-slate-700">${t.code}</span>
+                        <span class="font-mono text-sm font-extrabold text-white px-2.5 py-0.5 rounded-lg bg-slate-900 border border-slate-700 flex items-center gap-1.5">
+                            <i class="fa-solid ${t.faIcon} text-blue-400 text-xs"></i> ${t.code}
+                        </span>
                         <span class="text-[11px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-md border border-amber-500/25">${t.status}</span>
                     </div>
                     <h4 class="text-xs sm:text-sm font-bold text-slate-200 truncate">${t.name}</h4>
@@ -2089,11 +2340,13 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('lea_td_cadet_name_v5');
+            const savedName = localStorage.getItem('lea_td_cadet_name_v6');
             if (savedName) document.getElementById('cadet-name-input').value = savedName;
             if (TD_CONFIG.customLogoUrl) {
                 document.getElementById('header-logo-container').innerHTML = `<img src="${TD_CONFIG.customLogoUrl}" alt="TD Logo" class="w-full h-full object-contain rounded-[14px] bg-slate-950 p-1">`;
             }
+            initUpdateModal();
+            startBugReportCycle();
             renderExamModules();
             initFtsSimulator();
             renderTcccSimulator();
